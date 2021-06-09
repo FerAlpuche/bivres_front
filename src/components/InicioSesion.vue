@@ -4,10 +4,10 @@
       <b-row align-v="center">
         <b-col align-v="center">
           <b-card
-            border-variant="primary"
+            border-variant="info"
             no-body
             class="overflow-hidden mx-auto"
-            style="max-width: 80%; background-color: rgba(0, 0, 255, 0.1)"
+            style="max-width: 80%; background-color: rgba(255, 255, 255, 0.1)"
           >
             <b-row>
               <b-col md="4" class="mt-5">
