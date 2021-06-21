@@ -1,6 +1,6 @@
 <template>
   <div>
-    <particles-bg type="custom" :config="config" :bg="true" />
+    <fondo />
     <b-container>
       <b-row align-v="center">
         <b-col align-v="center">
@@ -57,7 +57,12 @@
                     </b-form-group>
                   </b-form>
                   <div class="mx-auto">
-                    <b-button pill class="mt-5 w-50" variant="primary">
+                    <b-button
+                      @click="authenticate()"
+                      pill
+                      class="mt-5 w-50"
+                      variant="primary"
+                    >
                       Ingresar
                     </b-button>
                   </div>
@@ -72,35 +77,25 @@
 </template>
 
 <script>
+import fondo from "../components/Fondo";
 import Vue from "vue";
 import VueRouter from "vue-router";
-import icon from "../util/icon";
 //import api from "../util/api";
-import { ParticlesBg } from "particles-bg-vue";
 
 Vue.use(VueRouter);
 export default {
-  data() {
-    return {
-      config: {
-        num: [2, 7],
-        rps: 1.0,
-        radius: [20, 40],
-        life: [5, 7],
-        v: [2, 3],
-        tha: [-30, 50],
-        alpha: [0.6, 0],
-        scale: [1.0, 2.3],
-        body: icon,
-        position: "all",
-        cross: "dead",
-        random: 15,
-      },
-    };
-  },
   components: {
-    ParticlesBg,
+    fondo,
   },
+  data() {
+    return {};
+  },
+  methods: {
+    authenticate() {
+      this.$router.push("/registro-estudiante");
+    },
+  },
+
   mounted() {},
 };
 </script>
