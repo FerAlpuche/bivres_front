@@ -1,21 +1,28 @@
 <template>
   <div>
+    <particles-bg type="custom" :config="config" :bg="true" />
     <b-container>
       <b-row align-v="center">
         <b-col align-v="center">
+          <b-row style="margin-bottom: -5%">
+            <b-col md="12" class="">
+              <img
+                height="60%"
+                src="../assets/logo-utez.png"
+                class="rounded-0"
+              />
+            </b-col>
+          </b-row>
           <b-card
             border-variant="info"
             no-body
             class="overflow-hidden mx-auto"
-            style="max-width: 80%; background-color: rgba(255, 255, 255, 0.1)"
+            style="max-width: 30%; background: #ffff; border-radius: 30px"
           >
             <b-row>
-              <b-col md="4" class="mt-5">
-                <img src="../assets/logo-utez.png" class="rounded-0 w-100" />
-              </b-col>
-              <b-col md="8">
-                <b-card-body body-text-variant="white" title="Inicio de sesión">
-                  <b-form align="left" class="mt-4">
+              <b-col md="12">
+                <b-card-body body-text-variant="black" title="Inicio de sesión">
+                  <b-form align="left" class="mt-5">
                     <b-form-group
                       class="mt-3"
                       id="input-group-1"
@@ -48,11 +55,12 @@
                         required
                       ></b-form-input>
                     </b-form-group>
-
-                    <b-button block class="mt-3" variant="primary"
-                      >Iniciar</b-button
-                    >
                   </b-form>
+                  <div class="mx-auto">
+                    <b-button pill class="mt-5 w-50" variant="primary">
+                      Ingresar
+                    </b-button>
+                  </div>
                 </b-card-body>
               </b-col>
             </b-row>
@@ -66,15 +74,38 @@
 <script>
 import Vue from "vue";
 import VueRouter from "vue-router";
+import icon from "../util/icon";
 //import api from "../util/api";
+import { ParticlesBg } from "particles-bg-vue";
 
 Vue.use(VueRouter);
-export default {};
+export default {
+  data() {
+    return {
+      config: {
+        num: [2, 7],
+        rps: 1.0,
+        radius: [20, 40],
+        life: [5, 7],
+        v: [2, 3],
+        tha: [-30, 50],
+        alpha: [0.6, 0],
+        scale: [1.0, 2.3],
+        body: icon,
+        position: "all",
+        cross: "dead",
+        random: 15,
+      },
+    };
+  },
+  components: {
+    ParticlesBg,
+  },
+  mounted() {},
+};
 </script>
 <style >
 body {
-  background: linear-gradient(to left, #049475, #013462);
   margin: auto;
-  height: 100vh;
 }
 </style>
