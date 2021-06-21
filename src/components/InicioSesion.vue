@@ -92,14 +92,15 @@ export default {
   },
   methods: {
     authenticate() {
-      this.$router.push("/registro-estudiante");
+      this.$router.push("/registro-bibliotecario");
     },
   },
 
   mounted() {},
 };
 </script>
-<style >
+
+<style scoped>
 body {
   margin: auto;
 }
