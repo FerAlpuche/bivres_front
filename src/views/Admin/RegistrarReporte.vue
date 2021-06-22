@@ -1,6 +1,6 @@
 <template>
   <div>
-    <headerEstudiante />
+    <headerAdmin />
     <b-container>
       <b-row align-v="center">
         <b-col align-v="center">
@@ -13,7 +13,7 @@
               <b-col md="12">
                 <b-card-body
                   body-text-variant="black"
-                  title="Registro de estudiantes"
+                  title="Registro de Reportes"
                 >
                   <b-form align="left" class="mt-5" @submit="onSubmit">
                     <b-row>
@@ -21,7 +21,7 @@
                         <b-form-group
                           class="mt-3"
                           id="input-group-1"
-                          label="Nombre:"
+                          label="Nombre del proyecto:"
                           label-for="input-1"
                         >
                           <b-form-input
@@ -31,7 +31,7 @@
                             class="mt-3"
                             id="input-1"
                             type="text"
-                            placeholder="Ej. José"
+                            placeholder="Ej. Aplicaciones Móviles"
                             required
                           ></b-form-input>
                         </b-form-group>
@@ -40,17 +40,17 @@
                         <b-form-group
                           class="mt-3"
                           id="input-group-2"
-                          label="Apellidos:"
+                          label="Descripción del Proyecto:"
                           label-for="input-2"
                         >
                           <b-form-input
                             autocomplete="off"
-                            v-model="form.lastname"
+                            v-model="form.description"
                             size="sm"
                             class="mt-3"
                             id="input-2"
                             type="text"
-                            placeholder="Ej. Ramírez Ramírez"
+                            placeholder="Ej. Proyecto..."
                             required
                           ></b-form-input>
                         </b-form-group>
@@ -59,17 +59,17 @@
                         <b-form-group
                           class="mt-3"
                           id="input-group-3"
-                          label="Matricula:"
+                          label="Año de Publicación:"
                           label-for="input-2"
                         >
                           <b-form-input
                             autocomplete="off"
-                            v-model="form.enrollment"
+                            v-model="form.anio"
                             size="sm"
                             class="mt-3"
                             id="input-3"
                             type="text"
-                            placeholder="Ej. 20183TI000"
+                            placeholder="Ej. 2021"
                             required
                           ></b-form-input>
                         </b-form-group>
@@ -123,55 +123,17 @@
                         <b-form-group
                           class="mt-3"
                           id="input-group-3"
-                          label="Escaneo de Credencial:"
+                          label="Periodo Escolar:"
                           label-for="input-2"
                         >
                           <b-form-input
                             autocomplete="off"
-                            v-model="form.credential"
+                            v-model="form.periodo"
                             size="sm"
                             class="mt-3"
                             id="input-3"
                             type="text"
-                            placeholder="Ej. 20183TI000"
-                            required
-                          ></b-form-input>
-                        </b-form-group>
-                      </b-col>
-                      <b-col cols="6">
-                        <b-form-group
-                          class="mt-3"
-                          id="input-group-3"
-                          label="Correo Electrónico Institucional:"
-                          label-for="input-2"
-                        >
-                          <b-form-input
-                            autocomplete="off"
-                            v-model="form.email"
-                            size="sm"
-                            class="mt-3"
-                            id="input-3"
-                            type="email"
-                            placeholder="Ej. 20183TI000@utez.edu.mx"
-                            required
-                          ></b-form-input>
-                        </b-form-group>
-                      </b-col>
-                      <b-col cols="6">
-                        <b-form-group
-                          class="mt-3"
-                          id="input-group-3"
-                          label="Contraseña:"
-                          label-for="input-2"
-                        >
-                          <b-form-input
-                            autocomplete="off"
-                            v-model="form.password"
-                            size="sm"
-                            class="mt-3"
-                            id="input-3"
-                            type="password"
-                            placeholder="Ej. 1234"
+                            placeholder="Ej. Mayo - Agosto"
                             required
                           ></b-form-input>
                         </b-form-group>
@@ -199,13 +161,13 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import fondo from "../../components/Fondo";
-import headerEstudiante from "../../components/HeaderEstudiante";
+import headerAdmin from "../../components/HeaderAdmin";
 Vue.use(VueRouter);
   export default {
-    name: "RegistroEstudiante",
+    name: "RegistrarReporte",
     components: {
     fondo,
-    headerEstudiante,
+    headerAdmin,
   },
     data() {
       return {
@@ -225,12 +187,10 @@ Vue.use(VueRouter);
           { value: 'a', text: 'TSU' }
         ],
         form: {
-          email: '',
           name: '',
-          password: '',
-          credential:'',
-          lastname: '',
-          enrollment: ''
+          description: '',
+          anio: '',
+          periodo:'',
         }
       }
     }

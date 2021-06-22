@@ -13,11 +13,6 @@
               />
             </b-col>
           </b-row>
-          <b-row align-h="center" cols="4">
-            <b-alert show
-              >¿Eres bibliotecario? Da click <a href="/"> aquí </a>
-            </b-alert>
-          </b-row>
           <b-card
             border-variant="info"
             no-body
@@ -31,7 +26,7 @@
                     <b-form-group
                       class="mt-3"
                       id="input-group-1"
-                      label="Matrícula:"
+                      label="Correo electrónico:"
                       label-for="input-1"
                     >
                       <b-form-input
@@ -39,8 +34,8 @@
                         size="sm"
                         class="mt-3"
                         id="input-1"
-                        type="text"
-                        placeholder="Ingresa tu matrícula"
+                        type="email"
+                        placeholder="Ingresa tu correo"
                         required
                       ></b-form-input>
                     </b-form-group>
@@ -97,14 +92,14 @@ export default {
   data() {
     return {
       user: {
-        matricula: "",
+        email: "",
         password: "",
       },
     };
   },
   methods: {
     authenticate() {
-      this.$router.push("/consultar-reportes");
+      this.$router.push("/registro-bibliotecario");
     },
   },
   mounted() {},

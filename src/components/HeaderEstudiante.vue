@@ -28,11 +28,9 @@
 
             <nav class="mb-3">
               <b-nav vertical>
-                <b-nav-item href="#link-1" @click="hide">Registrar Bibliotecario</b-nav-item>
-                <b-nav-item href="#link-2" @click="hide">Registrar Reportes</b-nav-item>
-                <b-nav-item href="#link-2" @click="hide">Dar de Baja Estudiantes</b-nav-item>
-                <b-nav-item href="#link-2" @click="hide">Cerrar Sesión</b-nav-item>
-
+                <b-nav-item href="#link-1" @click="hide">Consultar Reportes</b-nav-item>
+                <b-nav-item href="#link-2" @click="hide">Cerrar Sesión</b-nav-item
+                >
               </b-nav>
             </nav>
           </div>
