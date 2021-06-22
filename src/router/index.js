@@ -7,7 +7,6 @@ import RegistroBibliotecario from '../views/Admin/RegistroBibliotecario.vue'
 import BajaEstudiante from '../views/Admin/BajaEstudiante.vue'
 import RegistrarReporte from '../views/Admin/RegistrarReporte.vue'
 
-
 Vue.use(VueRouter)
 
 const routes = [

@@ -61,6 +61,7 @@ import fondo from "../../components/Fondo";
 import headerAdmin from "../../components/HeaderAdmin";
 //import api from "../../util/api";
 Vue.use(VueRouter);
+
 export default {
   name: "BajaEstudiante",
   components: {
