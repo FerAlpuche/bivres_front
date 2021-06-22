@@ -5,10 +5,6 @@
 <script>
 import icon from "../util/icon";
 import { ParticlesBg } from "particles-bg-vue";
-<<<<<<< HEAD
-=======
-
->>>>>>> 15e99519fffb29065be01bd7aaa89ac479de82d3
 export default {
   data() {
     return {
@@ -32,8 +28,4 @@ export default {
     ParticlesBg,
   },
 };
-<<<<<<< HEAD
 </script>
-=======
-</script>
->>>>>>> 15e99519fffb29065be01bd7aaa89ac479de82d3

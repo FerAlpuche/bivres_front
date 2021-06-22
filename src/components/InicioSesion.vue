@@ -81,10 +81,6 @@ import fondo from "../components/Fondo";
 import Vue from "vue";
 import VueRouter from "vue-router";
 //import api from "../util/api";
-<<<<<<< HEAD
-=======
-
->>>>>>> 15e99519fffb29065be01bd7aaa89ac479de82d3
 Vue.use(VueRouter);
 export default {
   components: {
@@ -98,10 +94,6 @@ export default {
       this.$router.push("/registro-bibliotecario");
     },
   },
-<<<<<<< HEAD
-=======
-
->>>>>>> 15e99519fffb29065be01bd7aaa89ac479de82d3
   mounted() {},
 };
 </script>
