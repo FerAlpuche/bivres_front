@@ -46,4 +46,9 @@
 export default {
   name: "Sidebar",
 };
+<<<<<<< HEAD
 </script>
+=======
+</script>
+
+>>>>>>> 15e99519fffb29065be01bd7aaa89ac479de82d3
