@@ -2,7 +2,7 @@
   <div>
     <div>
       <b-navbar type="light" variant="primary" fixed="top">
-        <b-button v-b-toggle.sidebar-no-header size="sm" variant="link">
+        <b-button v-b-toggle.sidebar-no-header size="md" variant="link">
           <b-icon
             variant="white"
             font-scale="2"

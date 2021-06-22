@@ -1,5 +1,6 @@
 <template>
   <div>
+    <headerAdmin />
     <div id="divForm">
       <br />
       <h1>Registro de estudiantes</h1>
@@ -85,11 +86,19 @@
         <b-button type="reset" variant="danger">Cancelar</b-button>
       </b-form>
     </div>
+    <fondo />
   </div>
 </template>
 
 <script>
+import fondo from "../../components/Fondo";
+import headerAdmin from "../../components/HeaderAdmin";
+
 export default {
+  components: {
+    fondo,
+    headerAdmin,
+  },
   data() {
     return {
       form: {
@@ -138,7 +147,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #divForm {
   height: 750px;
   width: 40%;
@@ -151,7 +160,6 @@ export default {
 }
 
 body {
-  background: linear-gradient(to left, #049475, #013462);
   margin: auto;
   height: 100vh;
 }

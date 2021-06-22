@@ -17,7 +17,7 @@
             border-variant="info"
             no-body
             class="overflow-hidden mx-auto"
-            style="max-width: 30%; background: #ffff; border-radius: 30px"
+            style="max-width: 30%; background: #ffff; border-radius: 15px"
           >
             <b-row>
               <b-col md="12">
