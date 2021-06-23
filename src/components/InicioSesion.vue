@@ -1,32 +1,23 @@
 <template>
   <div>
-    <fondo />
     <b-container>
       <b-row align-v="center">
         <b-col align-v="center">
-          <b-row style="margin-bottom: -5%">
-            <b-col md="12" class="">
+          <div>
               <img
-                height="60%"
+                style="width:20%; margin: -2% 0% 4% 0%;"
                 src="../assets/logo-utez.png"
                 class="rounded-0"
               />
-            </b-col>
-          </b-row>
-          <b-row align-h="center" cols="4">
-            <b-alert show
-              >¿Eres bibliotecario? Da click <a href="/"> aquí </a>
-            </b-alert>
-          </b-row>
+          </div>
           <b-card
-            border-variant="info"
             no-body
             class="overflow-hidden mx-auto"
-            style="max-width: 30%; background: #ffff; border-radius: 15px"
+            style="max-width: 30%; background: #ffff; border-radius: 15px; box-shadow: 2px 2px 2px 2px #dfd6d8;"
           >
             <b-row>
               <b-col md="12">
-                <b-card-body body-text-variant="black" title="Inicio de sesión">
+                <b-card-body body-text-variant="black" class="mt-2" title="Inicio de sesión">
                   <b-form align="left" class="mt-5">
                     <b-form-group
                       class="mt-3"
@@ -66,7 +57,7 @@
                       @click="authenticate()"
                       pill
                       class="mt-5 w-50"
-                      variant="primary"
+                      style="background-color: #009475;"
                     >
                       Ingresar
                     </b-button>
@@ -74,6 +65,10 @@
                 </b-card-body>
               </b-col>
             </b-row>
+            <b-alert style="margin:0 2% 0 2%; background-color: #002e60;" class="text-white" show>
+              ¿Eres bibliotecario? Da click <a class="text-white" href="/"> aquí </a>
+            </b-alert>
+            <p></p>
             <template #footer>
               <p>¿No te has registrado? Haz click <a href="">aquí</a></p>
             </template>
@@ -85,20 +80,19 @@
 </template>
 
 <script>
-import fondo from "../components/Fondo";
 import Vue from "vue";
 import VueRouter from "vue-router";
+const axios = require('axios');
 //import api from "../util/api";
 Vue.use(VueRouter);
 export default {
   components: {
-    fondo,
   },
   data() {
     return {
       user: {
-        matricula: "",
-        password: "",
+        email: "mail14@utez.edu.mx",
+        password: "root"
       },
     };
   },
@@ -108,6 +102,18 @@ export default {
     },
   },
   mounted() {},
+  created() {
+    axios.post('http://localhost:3000/api/auth/signin', {
+      email: "mail14@utez.edu.mx",
+      password: "root"
+    })
+    .then(function ({data}) {
+      console.log(data);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  },
 };
 </script>
 
