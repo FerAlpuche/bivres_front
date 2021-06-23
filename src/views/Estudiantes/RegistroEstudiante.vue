@@ -2,28 +2,21 @@
   <div>
     <headerEstudiante />
     <b-container>
-      <b-button @click="show = true" variant="primary">lg modal</b-button>
+       <b-row align-v="center">
+        <b-col align-v="center">
+          <b-card
+            border-variant="info"
+            no-body
+            class="overflow-hidden mx-auto mt-5"
+            style="max-width: 70%; background: #ffff; border-radius: 10px"
+          >
+            <b-row>
+              <b-col md="12">
+                <b-card-body
+                  body-text-variant="black"
+                  title="Registro de estudiantes"
+                >
 
-      <b-modal
-        centered
-        hide-footer
-        content-class="shadow"
-        id="modal-lg"
-        size="lg"
-        title="Registro de estudiantes"
-        v-model="show"
-      >
-        <b-row align-v="center">
-          <b-col align-v="center">
-            <b-card
-              border-variant="info"
-              no-body
-              class="overflow-hidden mx-auto"
-              style="max-width: 70%; background: #ffff; border-radius: 10px"
-            >
-              <b-row>
-                <b-col md="12">
-                  <b-card-body body-text-variant="black">
                     <b-form align="left" @submit="onSubmit">
                       <b-row>
                         <b-col cols="6">
@@ -190,43 +183,22 @@
                               required
                             ></b-form-input>
                           </b-form-group>
-                        </b-col>
-                      </b-row>
-                    </b-form>
-                  </b-card-body>
-                </b-col>
-              </b-row>
-            </b-card>
-          </b-col>
-        </b-row>
-        <div class="d-block text-center">
-          <b-row>
-            <b-col cols="6">
-              <b-button
-                pill
-                class="mx-auto mt-3 w-50"
-                variant="danger"
-                type="submit"
-                @click="show = false"
-              >
-                Cancelar
-                <b-icon class="float-right" icon="x-circle"></b-icon>
-              </b-button>
-            </b-col>
-            <b-col cols="6">
-              <b-button
-                pill
-                class="mx-auto mt-3 w-50"
-                variant="success"
-                type="submit"
-              >
-                Registrar
-                <b-icon class="float-right" icon="person-plus"></b-icon>
-              </b-button>
-            </b-col>
-          </b-row>
-        </div>
-      </b-modal>
+                      </b-col>
+                    </b-row>
+                  </b-form>
+                  <div class="mx-auto">
+                    <b-button pill class="mt-5 w-50" variant="primary">
+                      Registrar
+
+                      <b-icon class="float-right" icon="person-plus"></b-icon>
+                    </b-button>
+                  </div>
+                </b-card-body>
+              </b-col>
+            </b-row>
+          </b-card>
+        </b-col>
+      </b-row>
     </b-container>
     <fondo />
   </div>
