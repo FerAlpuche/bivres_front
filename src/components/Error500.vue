@@ -11,7 +11,7 @@
     </div>
 </template>
 
-<style>
+<style scoped>
 body {
   background: linear-gradient(to left, #049475, #013462);
   margin: auto;

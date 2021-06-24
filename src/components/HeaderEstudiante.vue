@@ -29,7 +29,7 @@
             <nav class="mb-3">
               <b-nav vertical>
                 <b-nav-item href="#link-1" @click="hide">Consultar Reportes</b-nav-item>
-                <b-nav-item href="#link-2" @click="hide">Cerrar Sesión</b-nav-item
+                <b-nav-item href="/logout" @click="hide">Cerrar Sesión</b-nav-item
                 >
               </b-nav>
             </nav>

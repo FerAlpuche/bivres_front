@@ -5,7 +5,7 @@
         <b-col align-v="center">
           <div>
               <img
-                style="width:20%; margin: -2% 0% 4% 0%;"
+                style="width:20%; margin: 0 0 5% 0;"
                 src="../assets/logo-utez.png"
                 class="rounded-0"
               />
@@ -20,9 +20,9 @@
                 <b-card-body body-text-variant="black" class="mt-2" title="Inicio de sesión">
                   <b-form align="left" class="mt-5">
                     <b-form-group
-                      class="mt-3"
+                      class="mt-3 fw-bold"
                       id="input-group-1"
-                      label="Matrícula:"
+                      label="Matrícula"
                       label-for="input-1"
                     >
                       <b-form-input
@@ -32,13 +32,14 @@
                         id="input-1"
                         type="text"
                         placeholder="Ingresa tu matrícula"
+                        v-model="user.matricula"
                         required
                       ></b-form-input>
                     </b-form-group>
                     <b-form-group
-                      class="mt-3"
+                      class="mt-3 fw-bold"
                       id="input-group-2"
-                      label="Contraseña:"
+                      label="Contraseña"
                       label-for="input-2"
                     >
                       <b-form-input
@@ -47,7 +48,8 @@
                         class="mt-3"
                         id="input-2"
                         type="password"
-                        placeholder="***********"
+                        placeholder="Ingresa tu contraseña"
+                        v-model="user.password"
                         required
                       ></b-form-input>
                     </b-form-group>
@@ -55,20 +57,23 @@
                   <div class="mx-auto">
                     <b-button
                       @click="authenticate()"
-                      pill
-                      class="mt-5 w-50"
+                      class="mt-4 w-100"
                       style="background-color: #009475;"
                     >
                       Ingresar
                     </b-button>
                   </div>
+                  <div class="mx-auto">
+                    <b-button
+                      class="mt-2 w-100"
+                      style="background-color: #002e60;"
+                    >
+                      Soy bibliotecario
+                    </b-button>
+                  </div>
                 </b-card-body>
               </b-col>
             </b-row>
-            <b-alert style="margin:0 2% 0 2%; background-color: #002e60;" class="text-white" show>
-              ¿Eres bibliotecario? Da click <a class="text-white" href="/"> aquí </a>
-            </b-alert>
-            <p></p>
             <template #footer>
               <p>¿No te has registrado? Haz click <a href="">aquí</a></p>
             </template>
@@ -91,29 +96,39 @@ export default {
   data() {
     return {
       user: {
-        email: "mail14@utez.edu.mx",
-        password: "root"
+        matricula: "",
+        password: ""
       },
     };
   },
   methods: {
     authenticate() {
-      this.$router.push("/consultar-reportes");
+      const route = this;
+      axios.post('http://localhost:3000/api/auth/signin', {
+        email: this.user.matricula,
+        password: this.user.password
+      })
+      .then(function ({data}) {
+        console.log(data);
+        localStorage.setItem("isAuthenticated", true);
+        localStorage.setItem("role", "student");
+        //route.$router.push("/librarian/registrar-reporte");
+        route.$router.push("/student/consultar-reportes");
+        /*if (false) { //data.role
+          route.$router.push("/librarian/registrar-reporte");
+        } else {
+          route.$router.push("/student/consultar-reportes");
+        }*/
+      })
+      .catch(function (error) {
+        if (error) {
+          console.log("EFE")
+        }
+      });
     },
   },
   mounted() {},
-  created() {
-    axios.post('http://localhost:3000/api/auth/signin', {
-      email: "mail14@utez.edu.mx",
-      password: "root"
-    })
-    .then(function ({data}) {
-      console.log(data);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-  },
+  created() {},
 };
 </script>
 

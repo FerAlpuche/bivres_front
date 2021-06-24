@@ -7,11 +7,27 @@
         <br>
         <img src="../assets/error403.png" style="height: 170px;"/>
       </div>
-
+    <br>
+    <button class="btn btn-dark" @click="back()">Regresar</button>
     </div>
 </template>
 
-<style>
+<script>
+import Vue from "vue";
+import VueRouter from "vue-router";
+
+Vue.use(VueRouter);
+export default {
+  methods: {
+    back() {
+      this.$router.go(-1);
+    },
+  },
+};
+</script>
+
+
+<style scoped>
 body {
   background: linear-gradient(to left, #049475, #013462);
   margin: auto;

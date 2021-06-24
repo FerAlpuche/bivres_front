@@ -31,8 +31,7 @@
                 <b-nav-item href="#link-1" @click="hide">Registrar Bibliotecario</b-nav-item>
                 <b-nav-item href="#link-2" @click="hide">Registrar Reportes</b-nav-item>
                 <b-nav-item href="#link-2" @click="hide">Dar de Baja Estudiantes</b-nav-item>
-                <b-nav-item href="#link-2" @click="hide">Cerrar Sesión</b-nav-item>
-
+                <b-nav-item href="/logout" @click="hide">Cerrar Sesión</b-nav-item>
               </b-nav>
             </nav>
           </div>
