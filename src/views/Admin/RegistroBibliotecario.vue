@@ -189,7 +189,6 @@
         </div>
       </b-modal>
     </b-container>
-    <fondo />
   </div>
 </template>
 <!--
@@ -199,7 +198,7 @@
 <script>
 import Vue from "vue";
 import VueRouter from "vue-router";
-import fondo from "../../components/Fondo";
+
 import headerAdmin from "../../components/HeaderAdmin";
 import api from "../../util/api";
 
@@ -217,7 +216,6 @@ export default {
     };
   },
   components: {
-    fondo,
     headerAdmin,
   },
   methods: {

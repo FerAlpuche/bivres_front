@@ -90,6 +90,7 @@
         </b-col>
       </b-row>
     </b-container>
+    <fondo />
   </div>
 </template>
 
@@ -97,10 +98,13 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import api from "../util/api";
+import fondo from "../components/Fondo.vue";
 
 Vue.use(VueRouter);
 export default {
-  components: {},
+  components: {
+    fondo,
+  },
   data() {
     return {
       user: {
