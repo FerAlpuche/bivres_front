@@ -4,20 +4,29 @@
       <b-row align-v="center">
         <b-col align-v="center">
           <div>
-              <img
-                style="width:20%; margin: 0 0 5% 0;"
-                src="../assets/logo-utez.png"
-                class="rounded-0"
-              />
+            <img
+              style="width: 20%; margin: 0 0 5% 0"
+              src="../assets/logo-utez.png"
+              class="rounded-0"
+            />
           </div>
           <b-card
             no-body
             class="overflow-hidden mx-auto"
-            style="max-width: 30%; background: #ffff; border-radius: 15px; box-shadow: 2px 2px 2px 2px #dfd6d8;"
+            style="
+              max-width: 30%;
+              background: #ffff;
+              border-radius: 15px;
+              box-shadow: 2px 2px 2px 2px #dfd6d8;
+            "
           >
             <b-row>
               <b-col md="12">
-                <b-card-body body-text-variant="black" class="mt-2" title="Inicio de sesión">
+                <b-card-body
+                  body-text-variant="black"
+                  class="mt-2"
+                  title="Inicio de sesión"
+                >
                   <b-form align="left" class="mt-5">
                     <b-form-group
                       class="mt-3 fw-bold"
@@ -58,7 +67,7 @@
                     <b-button
                       @click="authenticate()"
                       class="mt-4 w-100"
-                      style="background-color: #009475;"
+                      style="background-color: #009475"
                     >
                       Ingresar
                     </b-button>
@@ -66,7 +75,7 @@
                   <div class="mx-auto">
                     <b-button
                       class="mt-2 w-100"
-                      style="background-color: #002e60;"
+                      style="background-color: #002e60"
                     >
                       Soy bibliotecario
                     </b-button>
@@ -87,44 +96,44 @@
 <script>
 import Vue from "vue";
 import VueRouter from "vue-router";
-const axios = require('axios');
-//import api from "../util/api";
+import api from "../util/api";
+
 Vue.use(VueRouter);
 export default {
-  components: {
-  },
+  components: {},
   data() {
     return {
       user: {
         matricula: "",
-        password: ""
+        password: "",
       },
     };
   },
   methods: {
     authenticate() {
       const route = this;
-      axios.post('http://localhost:3000/api/auth/signin', {
-        email: this.user.matricula,
-        password: this.user.password
-      })
-      .then(function ({data}) {
-        console.log(data);
-        localStorage.setItem("isAuthenticated", true);
-        localStorage.setItem("role", "student");
-        //route.$router.push("/librarian/registrar-reporte");
-        route.$router.push("/student/consultar-reportes");
-        /*if (false) { //data.role
+      api
+        .doPost("/api/auth/signin", {
+          email: this.user.matricula,
+          password: this.user.password,
+        })
+        .then(function ({ data }) {
+          console.log(data);
+          localStorage.setItem("isAuthenticated", true);
+          localStorage.setItem("role", "librarian");
+          //route.$router.push("/librarian/registrar-reporte");
+          route.$router.push("/librarian/registro-bibliotecario");
+          /*if (false) { //data.role
           route.$router.push("/librarian/registrar-reporte");
         } else {
           route.$router.push("/student/consultar-reportes");
         }*/
-      })
-      .catch(function (error) {
-        if (error) {
-          console.log("EFE")
-        }
-      });
+        })
+        .catch(function (error) {
+          if (error) {
+            console.log("EFE");
+          }
+        });
     },
   },
   mounted() {},
