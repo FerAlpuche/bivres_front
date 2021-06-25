@@ -1,42 +1,43 @@
 <template>
   <div>
     <headerAdmin />
+    <br />
+    <div class="funciones">
+      <h3>Registro de bibliotecarios</h3>
+    </div>
     <b-container>
       <b-row>
         <b-col class="mt-5">
-          <b-table-simple responsive stripped hover>
+          <b-table-simple responsive hover striped>
             <b-thead head-variant="light">
               <b-tr>
+                <b-th>#</b-th>
                 <b-th>Nombre</b-th>
-                <b-th>Apellido Paterno</b-th>
-                <b-th>Apellido Materno</b-th>
-                <b-th>Carrera</b-th>
-                <b-th>Grado</b-th>
-                <b-th>Grupo</b-th>
-                <b-th>Acción</b-th>
+                <b-th>Apellidos</b-th>
+                <b-th>Correo</b-th>
+                <b-th>Actualizar</b-th>
+                <b-th>Eliminar</b-th>
               </b-tr>
             </b-thead>
             <b-tbody>
-              <b-tr>
-                <b-td>Cell</b-td>
-                <b-td>Cell</b-td>
-                <b-td>Cell</b-td>
-                <b-td>Cell</b-td>
-                <b-td>Cell</b-td>
-                <b-td>Cell</b-td>
+              <b-tr v-for="(user, item) in users" :key="user.id">
+                <b-td>{{ item + 1 }}</b-td>
+                <b-td>{{ user.firstName }}</b-td>
+                <b-td>{{ user.lastName }}</b-td>
+                <b-td>{{ user.email }}</b-td>
                 <b-td>
-                  <b-button size="lg" variant="link" class="mb-2">
-                    <b-icon icon="x-circle" variant="danger"></b-icon>
+                  <b-button
+                    @click="
+                      $bvModal.show('bv-modal');
+                      toggleEdit(user.idUser);
+                    "
+                    size="lg"
+                    variant="link"
+                    class="mb-2"
+                  >
+                    <b-icon icon="pencil" variant="primary"></b-icon>
                   </b-button>
                 </b-td>
-              </b-tr>
-              <b-tr>
-                <b-td>Cell</b-td>
-                <b-td>Cell</b-td>
-                <b-td>Cell</b-td>
-                <b-td>Cell</b-td>
-                <b-td>Cell</b-td>
-                <b-td>Cell</b-td>
                 <b-td>
                   <b-button size="lg" variant="link" class="mb-2">
                     <b-icon icon="x-circle" variant="danger"></b-icon>
@@ -45,16 +46,20 @@
               </b-tr>
             </b-tbody>
           </b-table-simple>
-          <div>
+          <b-row cols="6">
             <b-button
               variant="primary"
               id="show-btn"
-              @click="$bvModal.show('bv-modal-example')"
-              >Registrar bibliotecario</b-button
+              v-b-modal.bv-modal-example
             >
-          </div>
+              Registrar bibliotecario
+              <b-icon class="float-right" icon="person-plus"></b-icon>
+            </b-button>
+          </b-row>
         </b-col>
       </b-row>
+
+      <!-- MODAL REGISTRO -->
       <b-modal
         title="Registrar bibliotecario"
         hide-header-close
@@ -64,128 +69,243 @@
         hide-footer
       >
         <div class="d-block text-center">
-          <b-card
-            border-variant="info"
-            no-body
-            class="overflow-hidden mx-auto"
-            style="max-width: 80%; background: #ffff; border-radius: 10px"
-          >
-            <b-row>
-              <b-col md="12">
-                <b-card-body body-text-variant="black" title="">
-                  <b-form align="left">
-                    <b-row>
-                      <b-col cols="6">
-                        <b-form-group
-                          class="mt-3"
-                          id="input-group-1"
-                          label="Nombre(s)"
-                          label-for="input-1"
-                        >
-                          <b-form-input
-                            autocomplete="off"
-                            size="sm"
-                            class="mt-3"
-                            id="input-1"
-                            type="text"
-                            placeholder="Ej. José"
-                            required
-                            v-model="firstName"
-                          ></b-form-input>
-                        </b-form-group>
-                      </b-col>
-                      <b-col cols="6">
-                        <b-form-group
-                          class="mt-3"
-                          id="input-group-2"
-                          label="Primer Apellido(s)"
-                          label-for="input-2"
-                        >
-                          <b-form-input
-                            autocomplete="off"
-                            size="sm"
-                            class="mt-3"
-                            id="input-2"
-                            type="text"
-                            placeholder="Ej. Ramírez"
-                            required
-                            v-model="lastName"
-                          ></b-form-input>
-                        </b-form-group>
-                      </b-col>
-                      <b-col cols="6">
-                        <b-form-group
-                          class="mt-3"
-                          id="input-group-3"
-                          label="Correo Electrónico"
-                          label-for="input-3"
-                        >
-                          <b-form-input
-                            autocomplete="off"
-                            size="sm"
-                            class="mt-3"
-                            id="input-3"
-                            type="email"
-                            placeholder="Ej. jose.perez@utez.edu.mx"
-                            required
-                            v-model="email"
-                          ></b-form-input>
-                        </b-form-group>
-                      </b-col>
-                      <b-col cols="6">
-                        <b-form-group
-                          class="mt-3"
-                          id="input-group-4"
-                          label="Contraseña"
-                          label-for="input-4"
-                        >
-                          <b-form-input
-                            autocomplete="off"
-                            size="sm"
-                            class="mt-3"
-                            id="input-4"
-                            type="password"
-                            placeholder="*********"
-                            required
-                            v-model="password"
-                          ></b-form-input>
-                        </b-form-group>
-                      </b-col>
-                    </b-row>
-                  </b-form>
-                  <div class="mx-auto">
-                    <b-row>
-                      <b-col cols="6">
-                        <b-button
-                          pill
-                          variant="danger"
-                          class="mt-5 w-50"
-                          block
-                          @click="$bvModal.hide('bv-modal-example')"
-                          >Cancelar</b-button
-                        >
-                      </b-col>
-                      <b-col cols="6">
-                        <b-button
-                          pill
-                          class="mt-5 w-50"
-                          variant="success outline"
-                          @click="registerLibrarian()"
-                        >
-                          Registrar
+          <b-row>
+            <b-col md="12">
+              <b-form align="left">
+                <b-row>
+                  <b-col cols="12">
+                    <b-form-group
+                      id="input-group-1"
+                      label="Nombre(s)"
+                      label-for="input-1"
+                    >
+                      <b-form-input
+                        autocomplete="off"
+                        size="sm"
+                        class="mt-3"
+                        id="input-1"
+                        type="text"
+                        placeholder="Ej. José"
+                        required
+                        v-model="librarian.firstName"
+                      ></b-form-input>
+                    </b-form-group>
+                  </b-col>
+                  <b-col cols="12">
+                    <b-form-group
+                      class="mt-3"
+                      id="input-group-2"
+                      label="Apellido(s)"
+                      label-for="input-2"
+                    >
+                      <b-form-input
+                        autocomplete="off"
+                        size="sm"
+                        class="mt-3"
+                        id="input-2"
+                        type="text"
+                        placeholder="Ej. Ramírez"
+                        required
+                        v-model="librarian.lastName"
+                      ></b-form-input>
+                    </b-form-group>
+                  </b-col>
+                  <b-col cols="12">
+                    <b-form-group
+                      class="mt-3"
+                      id="input-group-3"
+                      label="Correo Electrónico"
+                      label-for="input-3"
+                    >
+                      <b-form-input
+                        autocomplete="off"
+                        size="sm"
+                        class="mt-3"
+                        id="input-3"
+                        type="email"
+                        placeholder="Ej. jose.perez@utez.edu.mx"
+                        required
+                        v-model="librarian.email"
+                      ></b-form-input>
+                    </b-form-group>
+                  </b-col>
+                  <b-col cols="12">
+                    <b-form-group
+                      class="mt-3"
+                      id="input-group-4"
+                      label="Contraseña"
+                      label-for="input-4"
+                    >
+                      <b-form-input
+                        autocomplete="off"
+                        size="sm"
+                        class="mt-3"
+                        id="input-4"
+                        type="password"
+                        placeholder="*********"
+                        required
+                        v-model="librarian.password"
+                      ></b-form-input>
+                    </b-form-group>
+                  </b-col>
+                </b-row>
+              </b-form>
+              <div class="mx-auto">
+                <b-row>
+                  <b-col cols="6">
+                    <b-button
+                      pill
+                      variant="danger"
+                      class="mt-5 w-50"
+                      block
+                      @click="$bvModal.hide('bv-modal-example')"
+                      >Cancelar</b-button
+                    >
+                  </b-col>
+                  <b-col cols="6">
+                    <b-button
+                      pill
+                      class="mt-5 w-50"
+                      variant="success outline"
+                      @click="
+                        $bvModal.hide('bv-modal-example');
+                        registerLibrarian();
+                      "
+                    >
+                      Registrar
 
-                          <b-icon
-                            class="float-right"
-                            icon="person-plus"
-                          ></b-icon>
-                        </b-button>
-                      </b-col>
-                    </b-row>
-                  </div>
-                </b-card-body>
-              </b-col>
-            </b-row>
-          </b-card>
+                      <b-icon class="float-right" icon="person-plus"></b-icon>
+                    </b-button>
+                  </b-col>
+                </b-row>
+              </div>
+            </b-col>
+          </b-row>
+        </div>
+      </b-modal>
+
+      <!-- MODAL MODIFICAR -->
+      <b-modal
+        title="Modificar bibliotecario"
+        hide-header-close
+        size="lg"
+        centered
+        id="bv-modal"
+        hide-footer
+      >
+        <div class="d-block text-center">
+          <b-row>
+            <b-col md="12">
+              <b-form align="left">
+                <b-row>
+                  <b-col cols="12">
+                    <b-form-group
+                      id="input-group-1"
+                      label="Nombre(s)"
+                      label-for="input-1"
+                    >
+                      <b-form-input
+                        autocomplete="off"
+                        size="sm"
+                        class="mt-3"
+                        id="input-1"
+                        type="text"
+                        placeholder="Ej. José"
+                        required
+                        v-model="firstNameEdit"
+                      ></b-form-input>
+                    </b-form-group>
+                  </b-col>
+                  <b-col cols="12">
+                    <b-form-group
+                      class="mt-3"
+                      id="input-group-2"
+                      label="Apellido(s)"
+                      label-for="input-2"
+                    >
+                      <b-form-input
+                        autocomplete="off"
+                        size="sm"
+                        class="mt-3"
+                        id="input-2"
+                        type="text"
+                        placeholder="Ej. Ramírez"
+                        required
+                        v-model="lastNameEdit"
+                      ></b-form-input>
+                    </b-form-group>
+                  </b-col>
+                  <b-col cols="12">
+                    <b-form-group
+                      class="mt-3"
+                      id="input-group-3"
+                      label="Correo Electrónico"
+                      label-for="input-3"
+                    >
+                      <b-form-input
+                        autocomplete="off"
+                        size="sm"
+                        class="mt-3"
+                        id="input-3"
+                        type="email"
+                        placeholder="Ej. jose.perez@utez.edu.mx"
+                        required
+                        v-model="emailEdit"
+                      ></b-form-input>
+                    </b-form-group>
+                  </b-col>
+                  <b-col cols="12">
+                    <b-form-group
+                      class="mt-3"
+                      id="input-group-4"
+                      label="Contraseña"
+                      label-for="input-4"
+                    >
+                      <b-form-input
+                        autocomplete="off"
+                        size="sm"
+                        class="mt-3"
+                        id="input-4"
+                        type="password"
+                        placeholder="*********"
+                        required
+                        v-model="passwordEdit"
+                      ></b-form-input>
+                    </b-form-group>
+                  </b-col>
+                </b-row>
+              </b-form>
+              <div class="mx-auto">
+                <b-row>
+                  <b-col cols="6">
+                    <b-button
+                      pill
+                      variant="danger"
+                      class="mt-5 w-50"
+                      block
+                      @click="$bvModal.hide('bv-modal')"
+                      >Cancelar</b-button
+                    >
+                  </b-col>
+                  <b-col cols="6">
+                    <b-button
+                      pill
+                      class="mt-5 w-50"
+                      variant="success outline"
+                      @click="
+                        $bvModal.hide('bv-modal');
+                        editLibrarian();
+                      "
+                    >
+                      Modificar
+
+                      <b-icon class="float-right" icon="pencil-square"></b-icon>
+                    </b-button>
+                  </b-col>
+                </b-row>
+              </div>
+            </b-col>
+          </b-row>
         </div>
       </b-modal>
     </b-container>
@@ -207,6 +327,18 @@ export default {
   name: "RegistroBibliotecario",
   data() {
     return {
+      users: [],
+      firstNameEdit: "",
+      lastNameEdit: "",
+      emailEdit: "",
+      passwordEdit: "",
+      librarianEdit: {
+        id: 0,
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+      },
       librarian: {
         firstName: "",
         lastName: "",
@@ -218,7 +350,40 @@ export default {
   components: {
     headerAdmin,
   },
+  beforeMount() {
+    this.getUsers();
+  },
   methods: {
+    toggleEdit(id) {
+      console.log(id);
+      api
+        .doGet("/api/users/" + id)
+        .then((response) => {
+          console.log("entre");
+          console.log(response.data);
+          this.librarianEdit = response.data;
+          this.librarianEditId = response.data[0].idUser;
+          this.firstNameEdit = response.data[0].firstName;
+          this.lastNameEdit = response.data[0].lastName;
+          this.emailEdit = response.data[0].email;
+          this.passwordEdit = response.data[0].password;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    getUsers() {
+      api
+        .doGet("/api/users/librarian/active")
+        .then((response) => {
+          this.users = response.data;
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => (this.loading = false));
+    },
     registerLibrarian() {
       api
         .doPost("/api/users", {
@@ -227,12 +392,30 @@ export default {
           firstName: this.librarian.firstName,
           lastName: this.librarian.lastName,
         })
-        .then(
-          (this.librarian.firstName = ""),
-          (this.librarian.lastName = ""),
-          (this.librarian.email = ""),
-          (this.librarian.password = "")
-        )
+        .then(() => {
+          this.getUsers();
+          this.librarian.firstName = "";
+          this.librarian.lastName = "";
+          this.librarian.email = "";
+          this.librarian.password = "";
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    editLibrarian() {
+      this.librarianEdit = {
+        id: this.librarianEditId,
+        firstName: this.firstNameEdit,
+        lastName: this.lastNameEdit,
+        email: this.emailEdit,
+        password: this.passwordEdit,
+      };
+      api
+        .doPut("/api/users/" + this.librarianEdit.id, this.librarianEdit)
+        .then(() => {
+          this.getUsers();
+        })
         .catch((error) => {
           console.log(error);
         });
@@ -243,5 +426,17 @@ export default {
 <style scoped>
 body {
   height: 100vh;
+}
+.funciones {
+  color: #0d6efd;
+  width: 100%;
+  text-align: left;
+  margin-left: 5%;
+  border-left: 3px solid #0d6efd;
+  height: 45px;
+}
+.funciones > h3 {
+  line-height: 50px;
+  margin-left: 0.5%;
 }
 </style>
