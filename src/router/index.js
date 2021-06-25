@@ -51,11 +51,7 @@ const routes = [
     name: 'RegistroBibliotecario',
     component: RegistroBibliotecario,
     beforeEnter: (to, from, next) => {
-<<<<<<< HEAD
-      if (localStorage.getItem("isAuthenticated") == 1 && localStorage.getItem("role") == "librarian") {      
-=======
       if (localStorage.getItem("isAuthenticated") == 1 && localStorage.getItem("role") == "librarian") {
->>>>>>> bde8d5d651345db5e6815b97b3e865408faed289
         next()
       }else{
         next("/error/403")
@@ -67,11 +63,7 @@ const routes = [
     name: 'BajaEstudiante',
     component: BajaEstudiante,
     beforeEnter: (to, from, next) => {
-<<<<<<< HEAD
-      if (localStorage.getItem("isAuthenticated") == 1 && localStorage.getItem("role") == "librarian") {        
-=======
       if (localStorage.getItem("isAuthenticated") == 1 && localStorage.getItem("role") == "librarian") {
->>>>>>> bde8d5d651345db5e6815b97b3e865408faed289
         next()
       }else{
         next("/error/403")
@@ -85,11 +77,7 @@ const routes = [
     beforeEnter: (to, from, next) => {
       if (localStorage.getItem("isAuthenticated") != 1) {
         next("/error/401")
-<<<<<<< HEAD
-      }else if (localStorage.getItem("isAuthenticated") == 1 && localStorage.getItem("role") == "librarian") {        
-=======
       }else if (localStorage.getItem("isAuthenticated") == 1 && localStorage.getItem("role") == "librarian") {
->>>>>>> bde8d5d651345db5e6815b97b3e865408faed289
         next()
       }else if(localStorage.getItem("isAuthenticated") == 1 && localStorage.getItem("role") != "librarian"){
         next("/error/403")

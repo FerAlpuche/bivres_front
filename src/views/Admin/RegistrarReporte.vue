@@ -197,10 +197,6 @@ Vue.use(VueRouter);
       }
     },
     methods: {
-<<<<<<< HEAD
-=======
-
->>>>>>> bde8d5d651345db5e6815b97b3e865408faed289
     },
     created() {
       if (localStorage.getItem("firstAccess") == 1) {
@@ -217,18 +213,10 @@ Vue.use(VueRouter);
             toast.addEventListener('mouseleave', Swal.resumeTimer)
           }
         })
-<<<<<<< HEAD
-=======
-
->>>>>>> bde8d5d651345db5e6815b97b3e865408faed289
         Toast.fire({
           icon: 'success',
           title: "Bienvenido(a) " + user.username
         })
-<<<<<<< HEAD
-=======
-
->>>>>>> bde8d5d651345db5e6815b97b3e865408faed289
         localStorage.setItem("firstAccess", 0)
       }
     }
