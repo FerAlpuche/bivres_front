@@ -197,7 +197,6 @@ Vue.use(VueRouter);
       }
     },
     methods: {
-
     },
     created() {
       if (localStorage.getItem("firstAccess") == 1) {
@@ -214,12 +213,10 @@ Vue.use(VueRouter);
             toast.addEventListener('mouseleave', Swal.resumeTimer)
           }
         })
-
         Toast.fire({
           icon: 'success',
           title: "Bienvenido(a) " + user.username
         })
-
         localStorage.setItem("firstAccess", 0)
       }
     }
