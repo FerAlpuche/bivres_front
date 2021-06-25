@@ -79,23 +79,6 @@
                         <b-col cols="6">
                           <b-form-group
                             class="mt-3"
-                            id="input-group-4"
-                            label="Carrera:"
-                            label-for="input-2"
-                          >
-                            <b-select
-                              v-model="selected1"
-                              id="input-4"
-                              size="sm"
-                              class="mt-3"
-                              :options="degrees"
-                            >
-                            </b-select>
-                          </b-form-group>
-                        </b-col>
-                        <b-col cols="6">
-                          <b-form-group
-                            class="mt-3"
                             id="input-group-5"
                             label="División Académica:"
                             label-for="input-2"
@@ -105,9 +88,26 @@
                               :options="divisions"
                               id="input-5"
                               size="sm"
-                              class="mt-3"
+                              class="form-select form-select-sm mt-3"
                             >
                             </b-form-select>
+                          </b-form-group>
+                        </b-col>
+                        <b-col cols="6">
+                          <b-form-group
+                            class="mt-3"
+                            id="input-group-4"
+                            label="Carrera:"
+                            label-for="input-2"
+                          >
+                            <b-select
+                              v-model="selected1"
+                              id="input-4"
+                              size="sm"
+                              class="form-select form-select-sm mt-3"
+                              :options="degrees"
+                            >
+                            </b-select>
                           </b-form-group>
                         </b-col>
                         <b-col cols="6">
@@ -122,28 +122,9 @@
                               :options="levels"
                               id="input-6"
                               size="sm"
-                              class="mt-3"
+                              class="form-select form-select-sm mt-3"
                             >
                             </b-form-select>
-                          </b-form-group>
-                        </b-col>
-                        <b-col cols="6">
-                          <b-form-group
-                            class="mt-3"
-                            id="input-group-7"
-                            label="Escaneo de Credencial:"
-                            label-for="input-2"
-                          >
-                            <b-form-input
-                              autocomplete="off"
-                              v-model="form.credential"
-                              size="sm"
-                              class="mt-3"
-                              id="input-7"
-                              type="text"
-                              placeholder="Ej. 20183TI000"
-                              required
-                            ></b-form-input>
                           </b-form-group>
                         </b-col>
                         <b-col cols="6">
@@ -183,14 +164,33 @@
                               required
                             ></b-form-input>
                           </b-form-group>
-                      </b-col>
+                          </b-col>
+                          <b-col cols="6">
+                          <b-form-group
+                            class="mt-3"
+                            id="input-group-7"
+                            label="Escaneo de Credencial:"
+                            label-for="input-2"
+                          >
+                          <br>
+                          <b-form-file 
+                          v-model="file2" 
+                          class="mt-3" 
+                          plain
+                          id="buttonFile"
+                          ></b-form-file>
+                          </b-form-group>
+                        </b-col>
                     </b-row>
                   </b-form>
                   <div class="mx-auto">
-                    <b-button pill class="mt-5 w-50" variant="primary">
+                    <b-button pill class="mt-3 w-50" variant="primary">
                       Registrar
-
                       <b-icon class="float-right" icon="person-plus"></b-icon>
+                    </b-button>
+                    <b-button pill class="mt-3 w-50" variant="danger">
+                      Cancelar
+                      <b-icon class="float-right" icon="x-circle"></b-icon>
                     </b-button>
                   </div>
                 </b-card-body>
@@ -200,20 +200,17 @@
         </b-col>
       </b-row>
     </b-container>
-    <fondo />
   </div>
 </template>
 
 <script>
 import Vue from "vue";
 import VueRouter from "vue-router";
-import fondo from "../../components/Fondo";
 import headerEstudiante from "../../components/HeaderEstudiante";
 Vue.use(VueRouter);
 export default {
   name: "RegistroEstudiante",
   components: {
-    fondo,
     headerEstudiante,
   },
   data() {
@@ -222,6 +219,7 @@ export default {
       selected1: null,
       selected2: null,
       selected3: null,
+      file2: null,
       divisions: [
         { value: null, text: "Selecciona uno" },
         { value: "a", text: "DATIC" },
@@ -251,5 +249,6 @@ export default {
 body {
   height: 100vh;
 }
+
 </style>
 

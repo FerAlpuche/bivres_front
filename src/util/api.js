@@ -14,10 +14,7 @@ export default {
       url: resource,
       data,
       headers: {
-        Authorization:
-          localStorage.getItem("token") === null
-            ? ""
-            : "Bearer " + localStorage.getItem("token"),
+        'x-access-token': localStorage.getItem("token")
       },
       config,
     });

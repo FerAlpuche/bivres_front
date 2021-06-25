@@ -16,7 +16,7 @@
                     <b-th>Carrera</b-th>
                     <b-th>Nivel Académico</b-th>
                     <b-th>Año de Publicación</b-th>
-                    <b-th>Visualziar</b-th>
+                    <b-th>Visualizar</b-th>
                     <b-th>Descargar</b-th>
                     </b-tr>
                 </b-thead>
@@ -46,28 +46,50 @@
             <b-container>
                 <b-pagination v-model="currentPage" pills :total-rows="rows" align="right" id="pag"></b-pagination>
             </b-container>   
-        <fondo />
     </div>
 </template>
 
 <script>
 import Vue from "vue";
 import VueRouter from "vue-router";
-import fondo from "../../components/Fondo";
 import headerEstudiante from "../../components/HeaderEstudiante";
+import Swal from 'sweetalert2'
+
 Vue.use(VueRouter);
+
 export default {
     name: "ConsultarReportes",
     components: {
-    fondo,
     headerEstudiante,
   },
     data() {
         return {
         rows: 100,
         currentPage: 1
-        }
-    }    
+    }
+    },
+    created() {
+      if (localStorage.getItem("firstAccess") == 1) {
+        var user = JSON.parse(localStorage.getItem('user'));
+        console.log(user)
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+        Toast.fire({
+          icon: 'success',
+          title: "Bienvenido(a) " + user.username
+        })
+        localStorage.setItem("firstAccess", 0)
+      }
+    }     
 }
 </script>
 
