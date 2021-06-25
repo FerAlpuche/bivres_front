@@ -27,7 +27,11 @@
                   class="mt-2"
                   title="Inicio de sesión"
                 >
+<<<<<<< HEAD
                   <div>
+=======
+                <div>
+>>>>>>> bde8d5d651345db5e6815b97b3e865408faed289
                   <b-alert class="mt-4" variant="danger" show v-if="flag">
                     {{errorMessage}}
                   </b-alert>
@@ -152,10 +156,17 @@ export default {
         this.flag = true;
         this.errorMessage = "Todos los campos deben de llenarse";
       }
+<<<<<<< HEAD
     },
     librarianLogin() {
         this.$router.push("/librarian/login");
   },
+=======
+    },
+    librarianLogin() {
+        this.$router.push("/librarian/login");
+    },
+>>>>>>> bde8d5d651345db5e6815b97b3e865408faed289
     isEmail(email){
       // Regular expression for email search pattern
       var re = /^[^\s@]+@[^\s@]+$/;

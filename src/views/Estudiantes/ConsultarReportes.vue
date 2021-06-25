@@ -66,7 +66,11 @@ export default {
         return {
         rows: 100,
         currentPage: 1
+<<<<<<< HEAD
     }
+=======
+        }
+>>>>>>> bde8d5d651345db5e6815b97b3e865408faed289
     },
     created() {
       if (localStorage.getItem("firstAccess") == 1) {
@@ -83,13 +87,24 @@ export default {
             toast.addEventListener('mouseleave', Swal.resumeTimer)
           }
         })
+<<<<<<< HEAD
+=======
+
+>>>>>>> bde8d5d651345db5e6815b97b3e865408faed289
         Toast.fire({
           icon: 'success',
           title: "Bienvenido(a) " + user.username
         })
+<<<<<<< HEAD
         localStorage.setItem("firstAccess", 0)
       }
     }     
+=======
+
+        localStorage.setItem("firstAccess", 0)
+      }
+    } 
+>>>>>>> bde8d5d651345db5e6815b97b3e865408faed289
 }
 </script>
 
