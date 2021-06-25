@@ -27,7 +27,13 @@
                   class="mt-2"
                   title="Inicio de sesión"
                 >
-                  <b-form align="left" class="mt-5">
+                <div>
+                  <b-alert class="mt-4" variant="danger" show v-if="flag">
+                    {{errorMessage}}
+                  </b-alert>
+                </div>
+
+                  <b-form align="left" class="mt-4">
                     <b-form-group
                       class="mt-3 fw-bold"
                       id="input-group-1"
@@ -41,7 +47,7 @@
                         id="input-1"
                         type="text"
                         placeholder="Ingresa tu matrícula"
-                        v-model="user.matricula"
+                        v-model="user.enrollment"
                         required
                       ></b-form-input>
                     </b-form-group>
@@ -74,6 +80,7 @@
                   </div>
                   <div class="mx-auto">
                     <b-button
+                      @click="librarianLogin()"
                       class="mt-2 w-100"
                       style="background-color: #002e60"
                     >
@@ -107,38 +114,53 @@ export default {
   },
   data() {
     return {
+      flag: false,
+      errorMessage: "",
       user: {
-        matricula: "",
+        enrollment: "",
         password: "",
       },
     };
   },
   methods: {
     authenticate() {
-      const route = this;
-      api
+      if (this.user.enrollment != "" && this.user.password != "") {
+        const route = this;
+        api
         .doPost("/api/auth/signin", {
-          email: this.user.matricula,
+          enrollment: this.user.enrollment,
           password: this.user.password,
         })
         .then(function ({ data }) {
-          console.log(data);
-          localStorage.setItem("isAuthenticated", true);
-          localStorage.setItem("role", "librarian");
-          //route.$router.push("/librarian/registrar-reporte");
-          route.$router.push("/librarian/registro-bibliotecario");
-          /*if (false) { //data.role
-          route.$router.push("/librarian/registrar-reporte");
-        } else {
-          route.$router.push("/student/consultar-reportes");
-        }*/
+          if (data) {
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("role", data.role);
+            localStorage.setItem('user', JSON.stringify(data.user));
+            localStorage.setItem("isAuthenticated", 1);
+            localStorage.setItem("firstAccess", 1);
+            route.$router.push("/student/consultar-reportes");
+          }
         })
         .catch(function (error) {
-          if (error) {
-            console.log("EFE");
+          console.log(error.response)
+          if (!error.response.data.isValid) {
+            route.flag = true;
+            route.errorMessage = "Matrícula y/o contraseña no válidas";
           }
         });
+      } else {
+        this.flag = true;
+        this.errorMessage = "Todos los campos deben de llenarse";
+      }
     },
+    librarianLogin() {
+        this.$router.push("/librarian/login");
+    },
+    isEmail(email){
+      // Regular expression for email search pattern
+      var re = /^[^\s@]+@[^\s@]+$/;
+      return re.test(email)
+    }
   },
   mounted() {},
   created() {},
