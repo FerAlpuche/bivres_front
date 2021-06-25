@@ -359,8 +359,6 @@ export default {
       api
         .doGet("/api/users/" + id)
         .then((response) => {
-          console.log("entre");
-          console.log(response.data);
           this.librarianEdit = response.data;
           this.librarianEditId = response.data[0].idUser;
           this.firstNameEdit = response.data[0].firstName;
