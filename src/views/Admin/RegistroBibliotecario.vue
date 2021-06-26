@@ -375,7 +375,6 @@ export default {
         .doGet("/api/users/librarian/active")
         .then((response) => {
           this.users = response.data;
-          console.log(response.data);
         })
         .catch((error) => {
           console.log(error);
