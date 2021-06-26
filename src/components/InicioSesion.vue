@@ -91,7 +91,7 @@
               </b-col>
             </b-row>
             <template #footer>
-              <p>¿No te has registrado? Haz click <a href="">aquí</a></p>
+              <p>¿No te has registrado? Haz click <a href="/student/registro-estudiante">aquí</a></p>
             </template>
           </b-card>
         </b-col>

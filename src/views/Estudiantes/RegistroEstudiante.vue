@@ -17,7 +17,7 @@
                   title="Registro de estudiantes"
                 >
 
-                    <b-form align="left" @submit="onSubmit">
+                    <b-form align="left">
                       <b-row>
                         <b-col cols="6">
                           <b-form-group
@@ -28,7 +28,7 @@
                           >
                             <b-form-input
                               autocomplete="off"
-                              v-model="form.name"
+                              v-model="student.name"
                               size="sm"
                               class="mt-3"
                               id="input-1"
@@ -47,7 +47,7 @@
                           >
                             <b-form-input
                               autocomplete="off"
-                              v-model="form.lastname"
+                              v-model="student.lastname"
                               size="sm"
                               class="mt-3"
                               id="input-2"
@@ -66,7 +66,7 @@
                           >
                             <b-form-input
                               autocomplete="off"
-                              v-model="form.enrollment"
+                              v-model="student.enrollment"
                               size="sm"
                               class="mt-3"
                               id="input-3"
@@ -84,7 +84,7 @@
                             label-for="input-2"
                           >
                             <b-form-select
-                              v-model="selected2"
+                              v-model="student.selected2"
                               :options="divisions"
                               id="input-5"
                               size="sm"
@@ -101,7 +101,7 @@
                             label-for="input-2"
                           >
                             <b-select
-                              v-model="selected1"
+                              v-model="student.selected1"
                               id="input-4"
                               size="sm"
                               class="form-select form-select-sm mt-3"
@@ -118,7 +118,7 @@
                             label-for="input-2"
                           >
                             <b-form-select
-                              v-model="selected3"
+                              v-model="student.selected3"
                               :options="levels"
                               id="input-6"
                               size="sm"
@@ -136,7 +136,7 @@
                           >
                             <b-form-input
                               autocomplete="off"
-                              v-model="form.email"
+                              v-model="student.email"
                               size="sm"
                               class="mt-3"
                               id="input-8"
@@ -155,7 +155,7 @@
                           >
                             <b-form-input
                               autocomplete="off"
-                              v-model="form.password"
+                              v-model="student.password"
                               size="sm"
                               class="mt-3"
                               id="input-9"
@@ -174,7 +174,7 @@
                           >
                           <br>
                           <b-form-file 
-                          v-model="file2" 
+                          v-model="student.file2" 
                           class="mt-3" 
                           plain
                           id="buttonFile"
@@ -184,7 +184,7 @@
                     </b-row>
                   </b-form>
                   <div class="mx-auto">
-                    <b-button pill class="mt-3 w-50" variant="primary">
+                    <b-button pill class="mt-3 w-50" variant="primary" @click="registerStudent();">
                       Registrar
                       <b-icon class="float-right" icon="person-plus"></b-icon>
                     </b-button>
@@ -207,19 +207,15 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import headerEstudiante from "../../components/HeaderEstudiante";
+import api from "../../util/api";
+import Swal from 'sweetalert2'
+
 Vue.use(VueRouter);
+
 export default {
   name: "RegistroEstudiante",
-  components: {
-    headerEstudiante,
-  },
   data() {
     return {
-      show: false,
-      selected1: null,
-      selected2: null,
-      selected3: null,
-      file2: null,
       divisions: [
         { value: null, text: "Selecciona uno" },
         { value: "a", text: "DATIC" },
@@ -232,16 +228,47 @@ export default {
         { value: null, text: "Selecciona uno" },
         { value: "a", text: "TSU" },
       ],
-      form: {
+      student: {
         email: "",
         name: "",
         password: "",
-        credential: "",
+        file2: "",
         lastname: "",
         enrollment: "",
       },
     };
   },
+  components: {
+    headerEstudiante,
+  },
+  methods: {
+    registerStudent() {
+      api
+        .doPost("/api/users", {
+          firstName: this.student.name,
+          lastName: this.student.lastName,
+          enrollment: this.student.enrollment,
+          selected2: this.student.selected2,
+          selected1: this.student.selected1,
+          selected3: this.student.selected3,
+          email: this.student.email,
+          password: this.student.password,
+          file2: this.student.file2
+        })
+        .then(() => {
+          Swal.fire({
+            position: 'top-center',
+            icon: 'success',
+            title: 'Estudiante registrado con éxito',
+            showConfirmButton: false,
+            timer: 2500
+          })
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  }
 };
 </script>
 
@@ -249,6 +276,5 @@ export default {
 body {
   height: 100vh;
 }
-
 </style>
 
