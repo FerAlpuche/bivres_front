@@ -5,7 +5,9 @@ import VueRouter from 'vue-router'
 import RegistrarReporte from '../views/Admin/RegistrarReporte.vue'
 import BajaEstudiante from '../views/Admin/BajaEstudiante.vue'
 import RegistroBibliotecario from '../views/Admin/RegistroBibliotecario.vue'
+import DivisionAcademica from '../views/Admin/DivisionAcademica.vue'
 //import ConsultarReportesLibrarian from '../views/Estudiantes/ConsultarReportes.vue'
+
 
 //STUDENT
 import ConsultarReportesStudent from '../views/Estudiantes/ConsultarReportes.vue'
@@ -74,6 +76,20 @@ const routes = [
     path: '/librarian/registrar-reporte',
     name: 'RegistrarReporte',
     component: RegistrarReporte,
+    beforeEnter: (to, from, next) => {
+      if (localStorage.getItem("isAuthenticated") != 1) {
+        next("/error/401")
+      }else if (localStorage.getItem("isAuthenticated") == 1 && localStorage.getItem("role") == "librarian") {
+        next()
+      }else if(localStorage.getItem("isAuthenticated") == 1 && localStorage.getItem("role") != "librarian"){
+        next("/error/403")
+      }
+    }
+  },
+  {
+    path: '/librarian/registrar-division',
+    name: 'RegistrarDivision',
+    component: DivisionAcademica,
     beforeEnter: (to, from, next) => {
       if (localStorage.getItem("isAuthenticated") != 1) {
         next("/error/401")
