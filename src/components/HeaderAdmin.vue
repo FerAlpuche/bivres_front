@@ -13,13 +13,14 @@
       </b-navbar>
       <b-sidebar
         id="sidebar-no-header"
-        aria-labelledby="sidebar-no-header-title"
         no-header
+        backdrop-variant="primary"
         backdrop
         shadow
+        sidebar-class="border-right border-danger"
       >
         <template #default="{ hide }">
-          <div class="p-5">
+          <div class="p-3">
             <b-row>
               <b-col cols="12">
                 <h4 id="sidebar-no-header-title">Menú</h4>
@@ -27,11 +28,25 @@
             </b-row>
 
             <nav class="mb-3">
-              <b-nav vertical>
-                <b-nav-item href="#link-1" @click="hide">Registrar Bibliotecario</b-nav-item>
-                <b-nav-item href="#link-2" @click="hide">Registrar Reportes</b-nav-item>
-                <b-nav-item href="#link-2" @click="hide">Dar de Baja Estudiantes</b-nav-item>
-                <b-nav-item href="/logout" @click="hide">Cerrar Sesión</b-nav-item>
+              <b-nav vertical justified align="center">
+                <b-nav-item
+                  href="/librarian/registro-bibliotecario"
+                  @click="hide"
+                  >Bibliotecarios
+                  <b-icon icon="file-earmark-person"></b-icon>
+                </b-nav-item>
+                <b-nav-item href="/librarian/registrar-reporte" @click="hide"
+                  >Reportes <b-icon icon="book"></b-icon
+                ></b-nav-item>
+                <b-nav-item href="#link-2" @click="hide"
+                  >Baja Estudiantes <b-icon icon="person-x"></b-icon
+                ></b-nav-item>
+                <b-nav-item href="/librarian/registrar-division" @click="hide"
+                  >Divisiones <b-icon icon="journal-bookmark"></b-icon
+                ></b-nav-item>
+                <b-nav-item class="mt-5" href="/logout" @click="hide"
+                  >Cerrar Sesión<b-icon icon="lock"></b-icon
+                ></b-nav-item>
               </b-nav>
             </nav>
           </div>
