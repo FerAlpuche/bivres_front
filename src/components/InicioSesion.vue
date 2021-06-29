@@ -142,7 +142,7 @@ export default {
           }
         })
         .catch(function (error) {
-          console.log(error.response)
+          console.log(error)
           if (!error.response.data.isValid) {
             route.flag = true;
             route.errorMessage = "Matrícula y/o contraseña no válidas";

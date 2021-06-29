@@ -28,22 +28,12 @@
             </b-row>
 
             <nav class="mb-3">
-              <b-nav vertical justified align="center">
-                <b-nav-item
-                  href="/librarian/registro-bibliotecario"
-                  @click="hide"
-                  >Bibliotecarios
-                  <b-icon icon="file-earmark-person"></b-icon>
-                </b-nav-item>
-                <b-nav-item href="/librarian/registrar-reporte" @click="hide"
-                  >Reportes <b-icon icon="book"></b-icon
-                ></b-nav-item>
-                <b-nav-item href="#link-2" @click="hide"
-                  >Baja Estudiantes <b-icon icon="person-x"></b-icon
-                ></b-nav-item>
-                <b-nav-item class="mt-5" href="/logout" @click="hide"
-                  >Cerrar Sesión<b-icon icon="lock"></b-icon
-                ></b-nav-item>
+              <b-nav vertical>
+                <b-nav-item href="/librarian/registro-bibliotecario" @click="hide">Registrar Bibliotecario</b-nav-item>
+                <b-nav-item href="/librarian/registrar-reporte" @click="hide">Registrar Reportes</b-nav-item>
+                <b-nav-item href="/librarian/consultar-reportes" @click="hide">Consultar reportes</b-nav-item>
+                <b-nav-item href="#" @click="hide">Dar de Baja Estudiantes</b-nav-item>
+                <b-nav-item href="/logout" @click="hide">Cerrar Sesión</b-nav-item>
               </b-nav>
             </nav>
           </div>

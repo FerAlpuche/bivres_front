@@ -6,8 +6,7 @@ import RegistrarReporte from '../views/Admin/RegistrarReporte.vue'
 import BajaEstudiante from '../views/Admin/BajaEstudiante.vue'
 import RegistroBibliotecario from '../views/Admin/RegistroBibliotecario.vue'
 import DivisionAcademica from '../views/Admin/DivisionAcademica.vue'
-//import ConsultarReportesLibrarian from '../views/Estudiantes/ConsultarReportes.vue'
-
+import ConsultarReportesLibrarian from '../views/Admin/ConsultarReportes.vue'
 
 //STUDENT
 import ConsultarReportesStudent from '../views/Estudiantes/ConsultarReportes.vue'
@@ -87,9 +86,15 @@ const routes = [
     }
   },
   {
+<<<<<<< HEAD
     path: '/librarian/registrar-division',
     name: 'RegistrarDivision',
     component: DivisionAcademica,
+=======
+    path: '/librarian/consultar-reportes',
+    name: 'ConsultarReportesLibrarian',
+    component: ConsultarReportesLibrarian,
+>>>>>>> branch-alan
     beforeEnter: (to, from, next) => {
       if (localStorage.getItem("isAuthenticated") != 1) {
         next("/error/401")
