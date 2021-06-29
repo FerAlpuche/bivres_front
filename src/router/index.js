@@ -86,15 +86,14 @@ const routes = [
     }
   },
   {
-<<<<<<< HEAD
     path: '/librarian/registrar-division',
     name: 'RegistrarDivision',
     component: DivisionAcademica,
-=======
+  },
+  {
     path: '/librarian/consultar-reportes',
     name: 'ConsultarReportesLibrarian',
     component: ConsultarReportesLibrarian,
->>>>>>> branch-alan
     beforeEnter: (to, from, next) => {
       if (localStorage.getItem("isAuthenticated") != 1) {
         next("/error/401")
