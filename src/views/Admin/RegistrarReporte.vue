@@ -85,7 +85,7 @@
                         v-model="selected1" 
                         :options="degrees"
                         size="sm"
-                        class="mt-3">
+                        class="form-select form-select-sm mt-3">
                         </b-form-select>
                         </b-form-group>
                       </b-col>
@@ -100,7 +100,7 @@
                         v-model="selected2" 
                         :options="divisions"
                         size="sm"
-                        class="mt-3">
+                        class="form-select form-select-sm mt-3">
                         </b-form-select>
                         </b-form-group>
                       </b-col>
@@ -115,7 +115,7 @@
                         v-model="selected3" 
                         :options="levels"
                         size="sm"
-                        class="mt-3">
+                        class="form-select form-select-sm mt-3">
                         </b-form-select>
                         </b-form-group>
                       </b-col>

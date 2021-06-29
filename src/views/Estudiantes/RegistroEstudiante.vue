@@ -83,13 +83,12 @@
                             label="División Académica:"
                             label-for="input-2"
                           >
-                            <b-form-select
-                              v-model="student.selected2"
-                              :options="divisions"
-                              id="input-5"
-                              size="sm"
-                              class="form-select form-select-sm mt-3"
-                            >
+                            <b-form-select 
+                            v-model="student.selected2" 
+                            size="sm" class="form-select form-select-sm mt-3">
+                              <b-form-select-option v-for="option in divisions" v-bind:key="option.value">
+                                {{ option.name }}
+                              </b-form-select-option>
                             </b-form-select>
                           </b-form-group>
                         </b-col>
@@ -174,7 +173,7 @@
                           >
                           <br>
                           <b-form-file 
-                          v-model="student.file2" 
+                          v-model="student.studentCredential" 
                           class="mt-3" 
                           plain
                           id="buttonFile"
@@ -216,23 +215,12 @@ export default {
   name: "RegistroEstudiante",
   data() {
     return {
-      divisions: [
-        { value: null, text: "Selecciona uno" },
-        { value: "a", text: "DATIC" },
-      ],
-      degrees: [
-        { value: null, text: "Selecciona uno" },
-        { value: "a", text: "DSM" },
-      ],
-      levels: [
-        { value: null, text: "Selecciona uno" },
-        { value: "a", text: "TSU" },
-      ],
+      divisions: [],
       student: {
         email: "",
         name: "",
         password: "",
-        file2: "",
+        studentCredential: "",
         lastname: "",
         enrollment: "",
       },
@@ -244,16 +232,16 @@ export default {
   methods: {
     registerStudent() {
       api
-        .doPost("/api/users", {
+        .doPost("/api/students", {
           firstName: this.student.name,
-          lastName: this.student.lastName,
+          lastName: this.student.lastname,
           enrollment: this.student.enrollment,
-          selected2: this.student.selected2,
-          selected1: this.student.selected1,
-          selected3: this.student.selected3,
+          idAcademicDivision: 1,
+          idDegree: 1,
+          idLevel: 1,
           email: this.student.email,
           password: this.student.password,
-          file2: this.student.file2
+          studentCredential: "hola"
         })
         .then(() => {
           Swal.fire({
@@ -267,6 +255,18 @@ export default {
         .catch((error) => {
           console.log(error);
         });
+    },
+  getDivisions(){
+      api
+        .doGet("/api/division")
+        .then((response) => {
+          console.log(response);
+          this.divisions = response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        })
+        .finally(() => (this.loading = false));
     },
   }
 };

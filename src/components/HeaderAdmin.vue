@@ -41,9 +41,6 @@
                 <b-nav-item href="#link-2" @click="hide"
                   >Baja Estudiantes <b-icon icon="person-x"></b-icon
                 ></b-nav-item>
-                <b-nav-item href="/librarian/registrar-division" @click="hide"
-                  >Divisiones <b-icon icon="journal-bookmark"></b-icon
-                ></b-nav-item>
                 <b-nav-item class="mt-5" href="/logout" @click="hide"
                   >Cerrar Sesión<b-icon icon="lock"></b-icon
                 ></b-nav-item>
