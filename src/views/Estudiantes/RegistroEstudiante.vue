@@ -84,11 +84,15 @@
                             label-for="input-2"
                           >
                             <b-form-select 
-                            v-model="student.selected2" 
-                            size="sm" class="form-select form-select-sm mt-3">
-                              <b-form-select-option v-for="option in divisions" v-bind:key="option.value">
-                                {{ option.name }}
-                              </b-form-select-option>
+                            v-model="student.academicDivision" 
+                            name="divs"
+                            size="sm" 
+                            class="form-select form-select-sm mt-3">
+                              <option v-for="div in divisions" 
+                              :key="div.idAcademicDivision"
+                              :value="div.idAcademicDivision">
+                              {{div.name}}
+                              </option>
                             </b-form-select>
                           </b-form-group>
                         </b-col>
@@ -100,12 +104,15 @@
                             label-for="input-2"
                           >
                             <b-select
-                              v-model="student.selected1"
+                              v-model="student.degree"
                               id="input-4"
                               size="sm"
-                              class="form-select form-select-sm mt-3"
-                              :options="degrees"
-                            >
+                              class="form-select form-select-sm mt-3">
+                              <option v-for="deg in degrees" 
+                              :key="deg.idDegree"
+                              :value="deg.idDegree">
+                              {{deg.name}}
+                              </option>
                             </b-select>
                           </b-form-group>
                         </b-col>
@@ -117,12 +124,14 @@
                             label-for="input-2"
                           >
                             <b-form-select
-                              v-model="student.selected3"
-                              :options="levels"
-                              id="input-6"
+                              v-model="student.level"
                               size="sm"
-                              class="form-select form-select-sm mt-3"
-                            >
+                              class="form-select form-select-sm mt-3">
+                              <option v-for="lev in levels" 
+                              :key="lev.idLevel"
+                              :value="lev.idLevel">
+                              {{lev.name}}
+                              </option>
                             </b-form-select>
                           </b-form-group>
                         </b-col>
@@ -216,6 +225,8 @@ export default {
   data() {
     return {
       divisions: [],
+      levels: [],
+      degrees: [],
       student: {
         email: "",
         name: "",
@@ -223,11 +234,19 @@ export default {
         studentCredential: "",
         lastname: "",
         enrollment: "",
+        academicDivision: "",
+        level: "",
+        degree: "",
       },
     };
   },
   components: {
     headerEstudiante,
+  },
+    beforeMount() {
+    this.getDivisions();
+    this.getLevel();
+    this.getDegree();
   },
   methods: {
     registerStudent() {
@@ -236,9 +255,9 @@ export default {
           firstName: this.student.name,
           lastName: this.student.lastname,
           enrollment: this.student.enrollment,
-          idAcademicDivision: 1,
-          idDegree: 1,
-          idLevel: 1,
+          idAcademicDivision: this.student.academicDivision,
+          idDegree: this.student.degree,
+          idLevel: this.student.level,
           email: this.student.email,
           password: this.student.password,
           studentCredential: "hola"
@@ -261,7 +280,31 @@ export default {
         .doGet("/api/division")
         .then((response) => {
           console.log(response);
-          this.divisions = response.data;
+          this.divisions = response.data
+        })
+        .catch((error) => {
+          console.error(error);
+        })
+        .finally(() => (this.loading = false));
+    },
+  getLevel(){
+      api
+        .doGet("/api/level")
+        .then((response) => {
+          console.log(response);
+          this.levels = response.data
+        })
+        .catch((error) => {
+          console.error(error);
+        })
+        .finally(() => (this.loading = false));
+    },
+  getDegree(){
+      api
+        .doGet("/api/degree")
+        .then((response) => {
+          console.log(response);
+          this.degrees = response.data
         })
         .catch((error) => {
           console.error(error);
