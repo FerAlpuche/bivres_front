@@ -19,6 +19,18 @@ export default {
       config,
     });
   },
+  async executePDF(method, resource, data, config) {
+    return instancia({
+      method: method,
+      url: resource,
+      responseType: 'arraybuffer',
+      data,
+      headers: {
+        'x-access-token': localStorage.getItem("token")
+      },
+      config,
+    });
+  },
   doGet(endPoint) {
     return this.execute("GET", endPoint, null, {
       transformResponse: [
@@ -27,6 +39,9 @@ export default {
         },
       ],
     });
+  },
+  doPostPDF(endPoint, object) {
+    return this.executePDF("POST", endPoint, object);
   },
   doPost(endPoint, object) {
     return this.execute("POST", endPoint, object);

@@ -19,7 +19,7 @@
                         <b-th>Visualizar</b-th>
                         <b-th>Descargar</b-th>
                         <b-th>Modificar</b-th>
-                        <b-th>Eliminar</b-th>
+                        <!--<b-th>Eliminar</b-th>-->
                     </b-tr>
                 </b-thead>
                 <b-tbody>
@@ -48,11 +48,12 @@
                             <b-icon icon="pencil-square" variant="warning"></b-icon>
                             </b-button>
                         </b-td>
-                        <b-td>
+                        <!--<b-td>
                             <b-button size="lg" variant="link" class="mb-2">
-                            <b-icon icon="trash-fill" variant="danger"></b-icon>
+                            <b-icon icon="trash-fill" variant="danger"
+                            @click="deleteReport(report.idReport);"></b-icon>
                             </b-button>
-                        </b-td>
+                        </b-td>-->
                     </b-tr>
                 </b-tbody>
                 </b-table-simple>
@@ -62,12 +63,11 @@
             <b-modal
                 title="Visualizar PDF"
                 id="bv-modal" 
-                size="lg"
+                size="xl"
                 scrollable 
             >
                 <div class="d-block text-center">
-                    <embed :src="dir" width="700" height="500" 
-                        type="application/pdf">
+                    <iframe :src="dir" style="width:100%; height:800px;" frameborder="0"></iframe>
                 </div>
             </b-modal>
             </b-container>
@@ -103,33 +103,72 @@ export default {
     methods: {
         getFile(url){
             api
-            .doPost("api/reports/file", {
-              file: url
+            .doPostPDF("api/reports/file/", {
+                file: url
             })
             .then((response) => {
-                this.dir = response.data
+                let blob = new Blob([response.data], {type: 'application/pdf'});
+                let data = window.URL.createObjectURL(blob);
+                this.dir = data;
             })
             .catch((error) => {
                 console.log(error);
             });
+            
         },
         downloadFile(url){
             api
-            .doPost("api/reports/file", {
-              file: url
+            .doPostPDF("api/reports/file/", {
+                file: url
             })
             .then((response) => {
                 let blob = new Blob([response.data], {type: 'application/pdf'});
                 let data = window.URL.createObjectURL(blob);
                 let link = document.createElement('a');
                 link.href = data;
-                link.download="file.pdf";
+                link.download= url;
                 link.click();
             })
             .catch((error) => {
                 console.log(error);
             });
-        }
+        },
+        /*deleteReport(report){
+            Swal.fire({
+                title: '¿Desea eliminar el reporte?',
+                text: "No podrá revirtir los cambios",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    api
+                    .doPut("api/reports/delete/"+report)
+                    .then((response) => {
+                        if (response.data) {
+                            Swal.fire('Eliminiado', 'El reporte ha sido eliminado satisfactoriamente', 'success')
+                            api
+                            .doGet("api/reports/")
+                            .then((response) => {
+                                console.log(response.data)
+                                this.reports = response.data
+                            })
+                            .catch((error) => {
+                                console.log(error);
+                            });
+                        }   
+                    })
+                    .catch((error) => {
+                        if (error) {
+                            Swal.fire('Error', 'Lo sentimos, hubo un error al eliminar el reporte', 'error')
+                        }
+                    });
+                }
+            })
+        }*/
     },
     created() {
       if (localStorage.getItem("firstAccess") == 1) {
