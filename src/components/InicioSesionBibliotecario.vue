@@ -151,7 +151,7 @@ export default {
 
             })
             .catch(function (error) {
-              console.log(error.response)
+              console.log(error)
               if (error.response.data.isValid) {
                 route.flag = true;
                 route.errorMessage = "Correo electrónico y/o contraseña no válidos";

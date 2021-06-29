@@ -28,9 +28,10 @@
 
             <nav class="mb-3">
               <b-nav vertical>
-                <b-nav-item href="#link-1" @click="hide">Registrar Bibliotecario</b-nav-item>
-                <b-nav-item href="#link-2" @click="hide">Registrar Reportes</b-nav-item>
-                <b-nav-item href="#link-2" @click="hide">Dar de Baja Estudiantes</b-nav-item>
+                <b-nav-item href="/librarian/registro-bibliotecario" @click="hide">Registrar Bibliotecario</b-nav-item>
+                <b-nav-item href="/librarian/registrar-reporte" @click="hide">Registrar Reportes</b-nav-item>
+                <b-nav-item href="/librarian/consultar-reportes" @click="hide">Consultar reportes</b-nav-item>
+                <b-nav-item href="#" @click="hide">Dar de Baja Estudiantes</b-nav-item>
                 <b-nav-item href="/logout" @click="hide">Cerrar Sesión</b-nav-item>
               </b-nav>
             </nav>
