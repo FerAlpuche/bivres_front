@@ -45,7 +45,8 @@
                         </b-td>
                         <b-td>
                             <b-button size="lg" variant="link" class="mb-2">
-                            <b-icon icon="pencil-square" variant="warning"></b-icon>
+                            <b-icon icon="pencil-square" variant="warning"
+                            @click="updateReport(report.idReport);"></b-icon>
                             </b-button>
                         </b-td>
                         <!--<b-td>
@@ -169,6 +170,9 @@ export default {
                 }
             })
         }*/
+        updateReport(report) {
+            this.$router.push({path: "/librarian/modificar-reporte/"+report});
+        }
     },
     created() {
       if (localStorage.getItem("firstAccess") == 1) {

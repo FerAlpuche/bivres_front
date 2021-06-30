@@ -83,7 +83,7 @@
                         >
                           <b-form-input
                             autocomplete="off"
-                            v-model="form.idLibrarian"
+                            v-model="librarian.username"
                             size="sm"
                             class="mt-3"
                             id="input-4"
@@ -105,6 +105,7 @@
                         >
                             <b-form-select-option v-for="s in students" v-bind:key="s.idStudent" v-bind:value="s">{{s.firstName +" "+s.lastName}}</b-form-select-option>
                         </b-form-select>
+                        internshipPeriods
                         </b-form-group>
                       </b-col>
                       <b-col cols="6">
@@ -168,16 +169,12 @@
                           label="Periodo Escolar"
                           label-for="input-2"
                         >
-                          <b-form-input
-                            autocomplete="off"
-                            v-model="form.idInternshipPeriod"
-                            size="sm"
-                            class="mt-3"
-                            id="input-9"
-                            type="text"
-                            placeholder="Ej. Mayo - Agosto"
-                            required
-                          ></b-form-input>
+                          <b-form-select 
+                          v-model="form.idInternshipPeriod" 
+                          class="form-control mt-3"
+                          >
+                              <b-form-select-option v-for="ip in internshipPeriods" v-bind:key="ip.idInternshipPeriod" v-bind:value="ip.idInternshipPeriod">{{ip.name +"-"+ip.year}}</b-form-select-option>
+                          </b-form-select>
                         </b-form-group>
                       </b-col>
                       <b-col cols="6">
@@ -252,29 +249,22 @@ Vue.use(VueRouter);
           idStudentData: "",
           idDegree: "",
           idAcademicDivision: "",
+          idInternshipPeriod: "",
           idLevel: "",
           degree: "",
           division: "",
           level: ""
         },
         students: [],
-        divisions: [],
-        degrees: [
-          { value: null, text: 'Selecciona uno' },
-          { value: 'a', text: 'DSM' }
-        ],
-        levels: [
-          { value: null, text: 'Selecciona uno' },
-          { value: 'a', text: 'TSU' }
-        ],
+        internshipPeriods: [],
         form: {
           name: '',
           description: '',
           uploadedYear: '',
           idStudent: '',
-          idLibrarian: 3,
+          idLibrarian: '',
           idAcademicDivision: '',
-          idInternshipPeriod: 1,
+          idInternshipPeriod: '',
           idLevel: '',
           idDegree: '',
           keywords: '',
@@ -290,12 +280,14 @@ Vue.use(VueRouter);
         this.form.idAcademicDivision = this.student.idAcademicDivision;
         this.form.idLevel = this.student.idLevel;
         this.form.idDegree =  this.student.idDegree;
+        this.form.idLibrarian = 3;
+        //this.form.idLibrarian = this.librarian.idLibrarian;
 
         let fieldsForm = new FormData();
         fieldsForm.append("name", this.form.name)
         fieldsForm.append("description", this.form.description)
         fieldsForm.append("uploadedYear", this.form.uploadedYear)  
-        fieldsForm.append("idLibrarian", 3)
+        fieldsForm.append("idLibrarian", this.form.idLibrarian)
         fieldsForm.append("idStudent", this.student.idStudentData)
         fieldsForm.append("idDegree", this.student.idDegree)
         fieldsForm.append("idAcademicDivision", this.student.idAcademicDivision)
@@ -346,18 +338,26 @@ Vue.use(VueRouter);
         })
         localStorage.setItem("firstAccess", 0)
       }
-    },
-    mounted() {
+
       api
         .doGet("api/students/")
         .then((response) => {
-          console.log(response.data)
           this.students = response.data
         })
         .catch((error) => {
           console.log(error);
         });
-    },
+
+      api
+        .doGet("api/internship/")
+        .then((response) => {
+          console.log(response.data)
+          this.internshipPeriods = response.data
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   }
 </script>
 

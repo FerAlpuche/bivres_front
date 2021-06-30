@@ -13,9 +13,9 @@
               <b-col md="12">
                 <b-card-body
                   body-text-variant="black"
-                  title="Registro de reportes"
+                  title="Modificar reporte"
                 >
-                  <b-form align="left" class="mt-5" enctype="multipart/form-data" id="id-form">
+                  <b-form align="left" class="mt-5">
                     <b-row>
                       <b-col cols="6">
                         <b-form-group
@@ -26,7 +26,7 @@
                         >
                           <b-form-input
                             autocomplete="off"
-                            v-model="form.name"
+                            v-model="report.name"
                             size="sm"
                             class="mt-3"
                             id="input-1"
@@ -45,7 +45,7 @@
                         >
                           <b-form-input
                             autocomplete="off"
-                            v-model="form.description"
+                            v-model="report.description"
                             size="sm"
                             class="mt-3"
                             id="input-2"
@@ -64,7 +64,7 @@
                         >
                           <b-form-input
                             autocomplete="off"
-                            v-model="form.uploadedYear"
+                            v-model="report.uploadedYear"
                             size="sm"
                             class="mt-3"
                             id="input-3"
@@ -83,7 +83,7 @@
                         >
                           <b-form-input
                             autocomplete="off"
-                            v-model="form.idLibrarian"
+                            v-model="report.idLibrarian"
                             size="sm"
                             class="mt-3"
                             id="input-4"
@@ -100,7 +100,7 @@
                           label-for="input-2"
                         >
                         <b-form-select 
-                        v-model="student" 
+                        v-model="report.idStudent" 
                         class="form-control mt-3"
                         >
                             <b-form-select-option v-for="s in students" v-bind:key="s.idStudent" v-bind:value="s">{{s.firstName +" "+s.lastName}}</b-form-select-option>
@@ -116,7 +116,7 @@
                         >
                           <b-form-input
                             autocomplete="off"
-                            v-model="student.degree"
+                            v-model="report.idDegree"
                             size="sm"
                             class="mt-3"
                             id="input-6"
@@ -134,7 +134,7 @@
                         >
                           <b-form-input
                             autocomplete="off"
-                            v-model="student.division"
+                            v-model="report.idAcademicDivision"
                             size="sm"
                             class="mt-3"
                             id="input-7"
@@ -152,7 +152,7 @@
                         >
                           <b-form-input
                             autocomplete="off"
-                            v-model="student.level"
+                            v-model="report.idLevel"
                             size="sm"
                             class="mt-3"
                             id="input-8"
@@ -170,7 +170,7 @@
                         >
                           <b-form-input
                             autocomplete="off"
-                            v-model="form.idInternshipPeriod"
+                            v-model="report.idInternshipPeriod"
                             size="sm"
                             class="mt-3"
                             id="input-9"
@@ -189,7 +189,7 @@
                         >
                           <b-form-input
                             autocomplete="off"
-                            v-model="form.keywords"
+                            v-model="report.keywords"
                             size="sm"
                             class="mt-3"
                             id="input-10"
@@ -205,10 +205,10 @@
                         label-cols-sm="4"
                         class="mt-3">
                           <b-form-file 
-                            v-model="form.file"
+                            v-model="file"
                             accept=".pdf"
                             class="form-control"
-                            name="file" 
+                            name="file"
                             id="file"
                             required>
                           </b-form-file>
@@ -217,7 +217,7 @@
                     </b-row>
                   </b-form>
                   <div class="mx-auto">
-                    <b-button pill class="mt-5 w-50" variant="primary" type="button" @click="register()">
+                    <b-button pill class="mt-5 w-50" variant="primary" type="button" @click="updateReport(report.idReport)">
                       Registrar
                       <b-icon class="float-right" icon="file-earmark-text-fill"></b-icon>
                     </b-button>
@@ -248,26 +248,10 @@ Vue.use(VueRouter);
     data() {
       return {
         librarian: JSON.parse(localStorage.getItem('user')),
-        student: {
-          idStudentData: "",
-          idDegree: "",
-          idAcademicDivision: "",
-          idLevel: "",
-          degree: "",
-          division: "",
-          level: ""
-        },
+        student: {},
         students: [],
-        divisions: [],
-        degrees: [
-          { value: null, text: 'Selecciona uno' },
-          { value: 'a', text: 'DSM' }
-        ],
-        levels: [
-          { value: null, text: 'Selecciona uno' },
-          { value: 'a', text: 'TSU' }
-        ],
-        form: {
+        report: {
+          idReport: '',
           name: '',
           description: '',
           uploadedYear: '',
@@ -279,40 +263,42 @@ Vue.use(VueRouter);
           idDegree: '',
           keywords: '',
           file: []
-        }
+        },
+        file: []
       }
     },
     methods: {
-      register(){
+      updateReport(report){
         const route = this;
-
-        this.form.idStudent = this.student.idStudentData;
-        this.form.idAcademicDivision = this.student.idAcademicDivision;
-        this.form.idLevel = this.student.idLevel;
-        this.form.idDegree =  this.student.idDegree;
+        const flag = this.file.name === undefined;
 
         let fieldsForm = new FormData();
-        fieldsForm.append("name", this.form.name)
-        fieldsForm.append("description", this.form.description)
-        fieldsForm.append("uploadedYear", this.form.uploadedYear)  
-        fieldsForm.append("idLibrarian", 3)
-        fieldsForm.append("idStudent", this.student.idStudentData)
-        fieldsForm.append("idDegree", this.student.idDegree)
-        fieldsForm.append("idAcademicDivision", this.student.idAcademicDivision)
-        fieldsForm.append("idLevel", this.student.idLevel)
-        fieldsForm.append("idInternshipPeriod", 1)
-        fieldsForm.append("keywords", this.form.keywords)
-        fieldsForm.append("report", this.form.file, this.form.file.name);
+        fieldsForm.append("name", this.report.name)
+        fieldsForm.append("description", this.report.description)
+        fieldsForm.append("uploadedYear", this.report.uploadedYear)  
+        fieldsForm.append("idLibrarian", this.report.idLibrarian)
+        fieldsForm.append("idStudent", this.report.idStudent)
+        fieldsForm.append("idDegree", this.report.idDegree)
+        fieldsForm.append("idAcademicDivision", this.report.idAcademicDivision)
+        fieldsForm.append("idLevel", this.report.idLevel)
+        fieldsForm.append("idInternshipPeriod", this.report.idInternshipPeriod)
+        fieldsForm.append("keywords", this.report.keywords)
+        fieldsForm.append("filename", this.report.file)
+
+        if (!flag) {
+          fieldsForm.append("report", this.file, this.file.name);
+        }
 
         let myHeaders = new Headers();
         myHeaders.append("x-access-token", localStorage.getItem("token"));
 
-        fetch('http://localhost:3000/api/reports/', {
-          method: 'POST',
+        fetch('http://localhost:3000/api/reports/'+report, {
+          method: 'PUT',
           headers: myHeaders,
           body: fieldsForm
         })
         .then(function(response) {
+          console.log(response)
           if (response.ok) {
             Swal.fire('Registrado', 'El reporte ha sido registrado satisfactoriamente', 'success')
             route.$router.push("/librarian/consultar-reportes");
@@ -328,30 +314,20 @@ Vue.use(VueRouter);
       }
     },
     created() {
-      if (localStorage.getItem("firstAccess") == 1) {
-        const Toast = Swal.mixin({
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 3000,
-          timerProgressBar: true,
-          didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-          }
+      const id = this.$route.params.idReport;
+      api
+        .doGet("api/reports/"+id)
+        .then((response) => {
+          this.report = response.data.length > 0 ? this.report = response.data[0] : this.report = {};
+          this.report.keywords = JSON.parse(this.report.keywords).replaceAll('"', '');
         })
-        Toast.fire({
-          icon: 'success',
-          title: "Bienvenido(a) " + this.librarian.username
-        })
-        localStorage.setItem("firstAccess", 0)
-      }
-    },
-    mounted() {
+        .catch((error) => {
+          console.log(error);
+        });
+
       api
         .doGet("api/students/")
         .then((response) => {
-          console.log(response.data)
           this.students = response.data
         })
         .catch((error) => {
