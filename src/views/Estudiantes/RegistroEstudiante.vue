@@ -89,8 +89,8 @@
                             size="sm" 
                             class="form-select form-select-sm mt-3">
                               <option v-for="div in divisions" 
-                              :key="div.idAcademicDivision"
-                              :value="div.idAcademicDivision">
+                              v-bind:key="div.idAcademicDivision"
+                              v-bind:value="div.idAcademicDivision">
                               {{div.name}}
                               </option>
                             </b-form-select>
@@ -109,8 +109,8 @@
                               size="sm"
                               class="form-select form-select-sm mt-3">
                               <option v-for="deg in degrees" 
-                              :key="deg.idDegree"
-                              :value="deg.idDegree">
+                              v-bind:key="deg.idDegree"
+                              v-bind:value="deg.idDegree">
                               {{deg.name}}
                               </option>
                             </b-select>
@@ -128,8 +128,8 @@
                               size="sm"
                               class="form-select form-select-sm mt-3">
                               <option v-for="lev in levels" 
-                              :key="lev.idLevel"
-                              :value="lev.idLevel">
+                              v-bind:key="lev.idLevel"
+                              v-bind:value="lev.idLevel">
                               {{lev.name}}
                               </option>
                             </b-form-select>
@@ -174,20 +174,19 @@
                           </b-form-group>
                           </b-col>
                           <b-col cols="6">
-                          <b-form-group
-                            class="mt-3"
-                            id="input-group-7"
-                            label="Escaneo de Credencial:"
-                            label-for="input-2"
-                          >
-                          <br>
+                        <b-form-group 
+                        label="Credencial:" 
+                        label-cols-sm="4"
+                        class="mt-3">
                           <b-form-file 
-                          v-model="student.studentCredential" 
-                          class="mt-3" 
-                          plain
-                          id="buttonFile"
-                          ></b-form-file>
-                          </b-form-group>
+                            v-model="student.file"
+                            accept=".jpg"
+                            class="form-control"
+                            name="file" 
+                            id="file"
+                            required>
+                          </b-form-file>
+                        </b-form-group>
                         </b-col>
                     </b-row>
                   </b-form>
@@ -231,12 +230,12 @@ export default {
         email: "",
         name: "",
         password: "",
-        studentCredential: "",
         lastname: "",
         enrollment: "",
         academicDivision: "",
         level: "",
         degree: "",
+        file: [],
       },
     };
   },
@@ -250,30 +249,42 @@ export default {
   },
   methods: {
     registerStudent() {
-      api
-        .doPost("/api/students", {
-          firstName: this.student.name,
-          lastName: this.student.lastname,
-          enrollment: this.student.enrollment,
-          idAcademicDivision: this.student.academicDivision,
-          idDegree: this.student.degree,
-          idLevel: this.student.level,
-          email: this.student.email,
-          password: this.student.password,
-          studentCredential: "hola"
-        })
-        .then(() => {
-          Swal.fire({
-            position: 'top-center',
-            icon: 'success',
-            title: 'Estudiante registrado con éxito',
-            showConfirmButton: false,
-            timer: 2500
+      const route = this;
+      let flag = this.student.file.name === undefined;
+
+      if(!flag){
+        let fieldsForm = new FormData();
+
+        fieldsForm.append("firstName", this.student.name)
+        fieldsForm.append("lastName", this.student.lastname)
+        fieldsForm.append("enrollment", this.student.enrollment)
+        fieldsForm.append("idAcademicDivision", this.student.academicDivision)
+        fieldsForm.append("idDegree", this.student.degree)
+        fieldsForm.append("idLevel", this.student.level)
+        fieldsForm.append("email", this.student.email)
+        fieldsForm.append("password", this.student.password)
+        fieldsForm.append("studentCredential", this.student.file, this.student.file.name)
+        
+        fetch('http://localhost:3000/api/students/', {
+            method: 'POST',
+            body: fieldsForm
           })
-        })
-        .catch((error) => {
-          console.log(error);
+          .then(function(response) {
+            if (response.ok) {
+              Swal.fire('Registrado', 'El estudiante ha sido registrado satisfactoriamente', 'success')
+              route.$router.push("/");
+            }else{
+              Swal.fire('Error', 'Lo sentimos, hubo un error al registrar al estudiante', 'error')
+            }
+          })
+          .then(function() {
+            if (flag) {
+              Swal.fire('Error', 'Favor de subir un archivo', 'error')
+            }
         });
+      } else {
+        Swal.fire('Error', 'Favor de subir un archivo', 'error')
+      }
     },
   getDivisions(){
       api
