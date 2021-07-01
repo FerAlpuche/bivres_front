@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 
 //LIBRARIAN
 import RegistrarReporte from '../views/Admin/RegistrarReporte.vue'
+import ModificarReporte from '../views/Admin/ModificarReporte.vue'
 import BajaEstudiante from '../views/Admin/BajaEstudiante.vue'
 import RegistroBibliotecario from '../views/Admin/RegistroBibliotecario.vue'
 import DivisionAcademica from '../views/Admin/DivisionAcademica.vue'
@@ -86,9 +87,33 @@ const routes = [
     }
   },
   {
+    path: '/librarian/modificar-reporte/:idReport',
+    name: 'ModificarReporte',
+    component: ModificarReporte,
+    props: true,
+    beforeEnter: (to, from, next) => {
+      if (localStorage.getItem("isAuthenticated") != 1) {
+        next("/error/401")
+      }else if (localStorage.getItem("isAuthenticated") == 1 && localStorage.getItem("role") == "librarian") {
+        next()
+      }else if(localStorage.getItem("isAuthenticated") == 1 && localStorage.getItem("role") != "librarian"){
+        next("/error/403")
+      }
+    }
+  },
+  {
     path: '/librarian/registrar-division',
     name: 'RegistrarDivision',
     component: DivisionAcademica,
+    beforeEnter: (to, from, next) => {
+      if (localStorage.getItem("isAuthenticated") != 1) {
+        next("/error/401")
+      }else if (localStorage.getItem("isAuthenticated") == 1 && localStorage.getItem("role") == "librarian") {
+        next()
+      }else if(localStorage.getItem("isAuthenticated") == 1 && localStorage.getItem("role") != "librarian"){
+        next("/error/403")
+      }
+    }
   },
   {
     path: '/librarian/consultar-reportes',
