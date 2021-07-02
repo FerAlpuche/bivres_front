@@ -6,7 +6,7 @@
         <b-col align-v="center">
           <b-card
             no-body
-            class="overflow-hidden mx-auto mt-5 shadow"
+            class="overflow-hidden mx-auto mt-5 mb-3 shadow"
             style="max-width: 90%; background: #ffff; border-radius: 10px"
           >
             <b-row>
@@ -215,7 +215,7 @@
                         </b-form-group>
                       </b-col>
                       <b-col cols="4">
-                        <b-form-group label="Archivo PDF:" class="mt-3">
+                        <b-form-group label="Archivo PDF:" class="mt-2">
                           <b-form-file
                             v-model="form.file"
                             accept=".pdf"
