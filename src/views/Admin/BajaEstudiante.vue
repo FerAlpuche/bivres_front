@@ -7,9 +7,9 @@
     </div>
     <b-container>
       <div class="mt-5">
-        <b-table-simple responsive stripped hover>
-          <b-thead head-variant="light">
-             <b-tr>
+        <b-table-simple responsive hover>
+          <b-thead>
+            <b-tr>
               <b-th>Nombre completo</b-th>
               <b-th>Matrícula</b-th>
               <b-th>Carrera</b-th>
@@ -19,18 +19,24 @@
             </b-tr>
           </b-thead>
           <b-tbody>
-            <b-tr v-for="student in students" v-bind:key="student.idStudentData">
-                <b-td>{{student.firstName + ' ' + student.lastName}}</b-td>
-                <b-td>{{student.enrollment}}</b-td>
-                <b-td>{{student.degree}}</b-td>
-                <b-td>{{student.divisionAcronym}}</b-td>
-                <b-td>{{student.levelAcronym}}</b-td>
-                <b-td>
-                    <b-button size="lg" variant="link" class="mb-2">
-                    <b-icon icon="x-circle" variant="danger"
-                        @click="studentLeave(student.idStudentData);"></b-icon>
-                    </b-button>
-                </b-td>
+            <b-tr
+              v-for="student in students"
+              v-bind:key="student.idStudentData"
+            >
+              <b-td>{{ student.firstName + " " + student.lastName }}</b-td>
+              <b-td>{{ student.enrollment }}</b-td>
+              <b-td>{{ student.degree }}</b-td>
+              <b-td>{{ student.divisionAcronym }}</b-td>
+              <b-td>{{ student.levelAcronym }}</b-td>
+              <b-td>
+                <b-button size="lg" variant="link" class="mb-2">
+                  <b-icon
+                    icon="x-circle"
+                    variant="danger"
+                    @click="studentLeave(student.idStudentData)"
+                  ></b-icon>
+                </b-button>
+              </b-td>
             </b-tr>
           </b-tbody>
         </b-table-simple>
@@ -44,7 +50,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import headerAdmin from "../../components/HeaderAdmin";
 import api from "../../util/api";
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
 
 Vue.use(VueRouter);
 
@@ -55,40 +61,42 @@ export default {
   },
   data() {
     return {
-      students: []
+      students: [],
     };
   },
   methods: {
-    studentLeave(student){
+    studentLeave(student) {
       const dataStudents = this;
       api
-          .doPut("/api/students/delete/"+student)
-          .then(function ({ data }) {
-              if (data.status) {
-                  Swal.fire('Baja de estudiante', data.message, 'success')
-                  dataStudents.students = dataStudents.students.filter(s => s.idStudentData != student)
-              }
-          })
-          .catch(function (error) {
-              if (error.response.data.message) {
-                  Swal.fire('Error', error.response.data.message, 'error')
-              }
-          });
-    }
+        .doPut("/api/students/delete/" + student)
+        .then(function ({ data }) {
+          if (data.status) {
+            Swal.fire("Baja de estudiante", data.message, "success");
+            dataStudents.students = dataStudents.students.filter(
+              (s) => s.idStudentData != student
+            );
+          }
+        })
+        .catch(function (error) {
+          if (error.response.data.message) {
+            Swal.fire("Error", error.response.data.message, "error");
+          }
+        });
+    },
   },
-  mounted(){
+  mounted() {
     api
       .doGet("api/students/")
       .then((response) => {
-          console.log(response.data)
-          this.students = response.data
+        console.log(response.data);
+        this.students = response.data;
       })
       .catch((error) => {
-          if (error) {
-              console.log("Error al obtener las solicitudes");
-          }
+        if (error) {
+          console.log("Error al obtener las solicitudes");
+        }
       });
-  }
+  },
 };
 </script>
 <style scoped>

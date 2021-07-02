@@ -16,10 +16,12 @@
         aria-labelledby="sidebar-no-header-title"
         no-header
         backdrop
+        backdrop-variant="primary"
+        sidebar-class="border-right border-danger"
         shadow
       >
         <template #default="{ hide }">
-          <div class="p-5">
+          <div class="p-3">
             <b-row>
               <b-col cols="12">
                 <h4 id="sidebar-no-header-title">Menú</h4>
@@ -28,8 +30,11 @@
 
             <nav class="mb-3">
               <b-nav vertical>
-                <b-nav-item href="#link-1" @click="hide">Consultar Reportes</b-nav-item>
-                <b-nav-item href="/logout" @click="hide">Cerrar Sesión</b-nav-item
+                <b-nav-item href="#link-1" @click="hide"
+                  >Consultar Reportes</b-nav-item
+                >
+                <b-nav-item href="/logout" @click="hide"
+                  >Cerrar Sesión</b-nav-item
                 >
               </b-nav>
             </nav>

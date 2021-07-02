@@ -8,8 +8,8 @@
     <b-container>
       <b-row>
         <b-col class="mt-5">
-          <b-table-simple responsive hover striped>
-            <b-thead head-variant="light">
+          <b-table-simple responsive hover>
+            <b-thead>
               <b-tr>
                 <b-th>#</b-th>
                 <b-th>Nombre</b-th>
@@ -39,10 +39,12 @@
                   </b-button>
                 </b-td>
                 <b-td>
-                  <b-button 
-                  @click="deleteLibrarian(user.idUser);
-                    "
-                  size="lg" variant="link" class="mb-2">
+                  <b-button
+                    @click="deleteLibrarian(user.idUser)"
+                    size="lg"
+                    variant="link"
+                    class="mb-2"
+                  >
                     <b-icon icon="x-circle" variant="danger"></b-icon>
                   </b-button>
                 </b-td>
@@ -324,7 +326,7 @@ import VueRouter from "vue-router";
 
 import headerAdmin from "../../components/HeaderAdmin";
 import api from "../../util/api";
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
 
 Vue.use(VueRouter);
 export default {
@@ -394,12 +396,12 @@ export default {
         })
         .then(() => {
           Swal.fire({
-            position: 'top-center',
-            icon: 'success',
-            title: 'Bibliotecario registrado con éxito',
+            position: "top-center",
+            icon: "success",
+            title: "Bibliotecario registrado con éxito",
             showConfirmButton: false,
-            timer: 2500
-          })
+            timer: 2500,
+          });
           this.getUsers();
           this.librarian.firstName = "";
           this.librarian.lastName = "";
@@ -422,45 +424,45 @@ export default {
         .doPut("/api/users/" + this.librarianEdit.id, this.librarianEdit)
         .then(() => {
           Swal.fire({
-            position: 'center',
-            icon: 'success',
-            title: 'Bibliotecario actualizado con éxito',
+            position: "center",
+            icon: "success",
+            title: "Bibliotecario actualizado con éxito",
             showConfirmButton: false,
-            timer: 1500
-          })
+            timer: 1500,
+          });
           this.getUsers();
         })
         .catch((error) => {
           console.log(error);
         });
     },
-    deleteLibrarian(idUser){
+    deleteLibrarian(idUser) {
       Swal.fire({
-        title: '¿Está seguro de que desea eliminar?',
-        icon: 'warning',
+        title: "¿Está seguro de que desea eliminar?",
+        icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, eliminar',
-        cancelButtonText: "Cancelar", 
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sí, eliminar",
+        cancelButtonText: "Cancelar",
       }).then((result) => {
         if (result.isConfirmed) {
           api
-          .doPut("/api/users/delete/" + idUser)
-          .then(() => {
-            Swal.fire(
-              '¡Eliminado!',
-              'El bibliotecario se eliminó correctamente.',
-              'success'
-            );
-            this.getUsers();
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+            .doPut("/api/users/delete/" + idUser)
+            .then(() => {
+              Swal.fire(
+                "¡Eliminado!",
+                "El bibliotecario se eliminó correctamente.",
+                "success"
+              );
+              this.getUsers();
+            })
+            .catch((error) => {
+              console.log(error);
+            });
         }
       });
-    }
+    },
   },
 };
 </script>

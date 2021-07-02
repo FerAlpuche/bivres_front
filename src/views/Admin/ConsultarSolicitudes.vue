@@ -7,8 +7,8 @@
     </div>
     <b-container>
       <div class="mt-5">
-        <b-table-simple responsive stripped hover>
-          <b-thead head-variant="light">
+        <b-table-simple responsive hover>
+          <b-thead>
             <b-tr>
               <b-th>Nombre completo</b-th>
               <b-th>Matrícula</b-th>
@@ -20,24 +20,33 @@
             </b-tr>
           </b-thead>
           <b-tbody>
-            <b-tr v-for="student in students" v-bind:key="student.idStudentData">
-                <b-td>{{student.firstName + ' ' + student.lastName}}</b-td>
-                <b-td>{{student.enrollment}}</b-td>
-                <b-td>{{student.degree}}</b-td>
-                <b-td>{{student.division}}</b-td>
-                <b-td>{{student.level}}</b-td>
-                <b-td>
-                    <b-button size="lg" variant="link" class="mb-2">
-                    <b-icon icon="check-circle" variant="success"
-                        @click="acceptRequest(student.idStudentData);"></b-icon>
-                    </b-button>
-                </b-td>
-                <b-td>
-                    <b-button size="lg" variant="link" class="mb-2">
-                    <b-icon icon="x-circle" variant="danger"
-                        @click="deletetRequest(student.idStudentData);"></b-icon>
-                    </b-button>
-                </b-td>
+            <b-tr
+              v-for="student in students"
+              v-bind:key="student.idStudentData"
+            >
+              <b-td>{{ student.firstName + " " + student.lastName }}</b-td>
+              <b-td>{{ student.enrollment }}</b-td>
+              <b-td>{{ student.degree }}</b-td>
+              <b-td>{{ student.division }}</b-td>
+              <b-td>{{ student.level }}</b-td>
+              <b-td>
+                <b-button size="lg" variant="link" class="mb-2">
+                  <b-icon
+                    icon="check-circle"
+                    variant="success"
+                    @click="acceptRequest(student.idStudentData)"
+                  ></b-icon>
+                </b-button>
+              </b-td>
+              <b-td>
+                <b-button size="lg" variant="link" class="mb-2">
+                  <b-icon
+                    icon="x-circle"
+                    variant="danger"
+                    @click="deletetRequest(student.idStudentData)"
+                  ></b-icon>
+                </b-button>
+              </b-td>
             </b-tr>
           </b-tbody>
         </b-table-simple>
@@ -51,7 +60,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import headerAdmin from "../../components/HeaderAdmin";
 import api from "../../util/api";
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
 
 Vue.use(VueRouter);
 
@@ -62,62 +71,66 @@ export default {
   },
   data() {
     return {
-      students: []
+      students: [],
     };
   },
   methods: {
     acceptRequest(student) {
-    const dataStudents = this;
-    api
+      const dataStudents = this;
+      api
         .doPut("/api/students/requests", {
-            idUser: student,
-            status: 1,
+          idUser: student,
+          status: 1,
         })
         .then(function ({ data }) {
-            if (data.status) {
-                Swal.fire('Aceptada', data.message, 'success')
-                dataStudents.students = dataStudents.students.filter(s => s.idStudentData != student)
-            }
+          if (data.status) {
+            Swal.fire("Aceptada", data.message, "success");
+            dataStudents.students = dataStudents.students.filter(
+              (s) => s.idStudentData != student
+            );
+          }
         })
         .catch(function (error) {
-            if (error.response.data.message) {
-                Swal.fire('Error', error.response.data.message, 'error')
-            }
+          if (error.response.data.message) {
+            Swal.fire("Error", error.response.data.message, "error");
+          }
         });
     },
-    deletetRequest(student){
-    const dataStudents = this;
-    api
+    deletetRequest(student) {
+      const dataStudents = this;
+      api
         .doPut("/api/students/requests", {
-            idUser: student,
-            status: 0,
+          idUser: student,
+          status: 0,
         })
         .then(function ({ data }) {
-            if (data.status) {
-                Swal.fire('Rechazada', data.message, 'success')
-                dataStudents.students = dataStudents.students.filter(s => s.idStudentData != student)
-            }
+          if (data.status) {
+            Swal.fire("Rechazada", data.message, "success");
+            dataStudents.students = dataStudents.students.filter(
+              (s) => s.idStudentData != student
+            );
+          }
         })
         .catch(function (error) {
-            if (error.response.data.message) {
-                Swal.fire('Error', error.response.data.message, 'error')
-            }
+          if (error.response.data.message) {
+            Swal.fire("Error", error.response.data.message, "error");
+          }
         });
-    }
+    },
   },
-  mounted(){
+  mounted() {
     api
-    .doGet("api/students/requests")
-    .then((response) => {
-        console.log(response.data)
-        this.students = response.data
-    })
-    .catch((error) => {
+      .doGet("api/students/requests")
+      .then((response) => {
+        console.log(response.data);
+        this.students = response.data;
+      })
+      .catch((error) => {
         if (error) {
-            console.log("Error al obtener las solicitudes");
+          console.log("Error al obtener las solicitudes");
         }
-    });
-  }
+      });
+  },
 };
 </script>
 
