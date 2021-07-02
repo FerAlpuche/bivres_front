@@ -103,9 +103,8 @@
                         v-model="student" 
                         class="form-control mt-3"
                         >
-                            <b-form-select-option v-for="s in students" v-bind:key="s.idStudent" v-bind:value="s">{{s.firstName +" "+s.lastName}}</b-form-select-option>
+                            <b-form-select-option v-for="s in students" v-bind:key="s.idStudentData" v-bind:value="s">{{s.firstName +" "+s.lastName}}</b-form-select-option>
                         </b-form-select>
-                        internshipPeriods
                         </b-form-group>
                       </b-col>
                       <b-col cols="6">
@@ -275,48 +274,52 @@ Vue.use(VueRouter);
     methods: {
       register(){
         const route = this;
+        let flag = this.form.file.name === undefined;
 
-        this.form.idStudent = this.student.idStudentData;
-        this.form.idAcademicDivision = this.student.idAcademicDivision;
-        this.form.idLevel = this.student.idLevel;
-        this.form.idDegree =  this.student.idDegree;
-        this.form.idLibrarian = 3;
-        //this.form.idLibrarian = this.librarian.idLibrarian;
+        if(!flag){
+          this.form.idStudent = this.student.idStudentData;
+          this.form.idAcademicDivision = this.student.idAcademicDivision;
+          this.form.idLevel = this.student.idLevel;
+          this.form.idDegree =  this.student.idDegree;
+          this.form.idLibrarian = this.librarian.idLibrarian;
 
-        let fieldsForm = new FormData();
-        fieldsForm.append("name", this.form.name)
-        fieldsForm.append("description", this.form.description)
-        fieldsForm.append("uploadedYear", this.form.uploadedYear)  
-        fieldsForm.append("idLibrarian", this.form.idLibrarian)
-        fieldsForm.append("idStudent", this.student.idStudentData)
-        fieldsForm.append("idDegree", this.student.idDegree)
-        fieldsForm.append("idAcademicDivision", this.student.idAcademicDivision)
-        fieldsForm.append("idLevel", this.student.idLevel)
-        fieldsForm.append("idInternshipPeriod", 1)
-        fieldsForm.append("keywords", this.form.keywords)
-        fieldsForm.append("report", this.form.file, this.form.file.name);
+          let fieldsForm = new FormData();
+          fieldsForm.append("name", this.form.name)
+          fieldsForm.append("description", this.form.description)
+          fieldsForm.append("uploadedYear", this.form.uploadedYear)  
+          fieldsForm.append("idLibrarian", this.form.idLibrarian)
+          fieldsForm.append("idStudent", this.student.idStudentData)
+          fieldsForm.append("idDegree", this.student.idDegree)
+          fieldsForm.append("idAcademicDivision", this.student.idAcademicDivision)
+          fieldsForm.append("idLevel", this.student.idLevel)
+          fieldsForm.append("idInternshipPeriod", this.form.idInternshipPeriod)
+          fieldsForm.append("keywords", this.form.keywords)
+          fieldsForm.append("report", this.form.file, this.form.file.name);
 
-        let myHeaders = new Headers();
-        myHeaders.append("x-access-token", localStorage.getItem("token"));
+          let myHeaders = new Headers();
+          myHeaders.append("x-access-token", localStorage.getItem("token"));
 
-        fetch('http://localhost:3000/api/reports/', {
-          method: 'POST',
-          headers: myHeaders,
-          body: fieldsForm
-        })
-        .then(function(response) {
-          if (response.ok) {
-            Swal.fire('Registrado', 'El reporte ha sido registrado satisfactoriamente', 'success')
-            route.$router.push("/librarian/consultar-reportes");
-          }else{
-            Swal.fire('Error', 'Lo sentimos, hubo un error al registrar el reporte', 'error')
-          }
-        })
-        .then(function(res) {
-          if (res) {
-            Swal.fire('Error', 'Lo sentimos, hubo un error al registrar el reporte', 'error')
-          }
-        });
+          fetch('http://localhost:3000/api/reports/', {
+            method: 'POST',
+            headers: myHeaders,
+            body: fieldsForm
+          })
+          .then(function(response) {
+            if (response.ok) {
+              Swal.fire('Registrado', 'El reporte ha sido registrado satisfactoriamente', 'success')
+              route.$router.push("/librarian/consultar-reportes");
+            }else{
+              Swal.fire('Error', 'Lo sentimos, hubo un error al registrar el reporte', 'error')
+            }
+          })
+          .then(function(res) {
+            if (res) {
+              Swal.fire('Error', 'Lo sentimos, hubo un error al registrar el reporte', 'error')
+            }
+          });
+        } else {
+          Swal.fire('Error', 'Favor de subir un archivo', 'error')
+        }
       }
     },
     created() {
@@ -351,7 +354,6 @@ Vue.use(VueRouter);
       api
         .doGet("api/internship/")
         .then((response) => {
-          console.log(response.data)
           this.internshipPeriods = response.data
         })
         .catch((error) => {

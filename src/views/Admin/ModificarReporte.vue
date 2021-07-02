@@ -60,7 +60,7 @@
                           class="mt-3"
                           id="input-group-3"
                           label="Año de Publicación"
-                          label-for="input-2"
+                          label-for="input-3"
                         >
                           <b-form-input
                             autocomplete="off"
@@ -79,11 +79,11 @@
                           class="mt-3"
                           id="input-group-4"
                           label="Bibliotecario"
-                          label-for="input-2"
+                          label-for="input-4"
                         >
                           <b-form-input
                             autocomplete="off"
-                            v-model="report.idLibrarian"
+                            v-model="report.librarian"
                             size="sm"
                             class="mt-3"
                             id="input-4"
@@ -97,13 +97,15 @@
                           class="mt-3"
                           id="input-group-5"
                           label="Esudiante"
-                          label-for="input-2"
+                          label-for="input-5"
                         >
                         <b-form-select 
                         v-model="report.idStudent" 
                         class="form-control mt-3"
                         >
-                            <b-form-select-option v-for="s in students" v-bind:key="s.idStudent" v-bind:value="s">{{s.firstName +" "+s.lastName}}</b-form-select-option>
+                            <b-form-select-option v-for="s in students" v-bind:key="s.idStudentData" v-bind:value="s.idStudentData">
+                              {{s.firstName +" "+s.lastName}}
+                            </b-form-select-option>
                         </b-form-select>
                         </b-form-group>
                       </b-col>
@@ -112,11 +114,11 @@
                           class="mt-3"
                           id="input-group-6"
                           label="Carrera"
-                          label-for="input-2"
+                          label-for="input-6"
                         >
                           <b-form-input
                             autocomplete="off"
-                            v-model="report.idDegree"
+                            v-model="report.degree"
                             size="sm"
                             class="mt-3"
                             id="input-6"
@@ -130,11 +132,11 @@
                           class="mt-3"
                           id="input-group-7"
                           label="División académica"
-                          label-for="input-2"
+                          label-for="input-7"
                         >
                           <b-form-input
                             autocomplete="off"
-                            v-model="report.idAcademicDivision"
+                            v-model="report.division"
                             size="sm"
                             class="mt-3"
                             id="input-7"
@@ -148,11 +150,11 @@
                           class="mt-3"
                           id="input-group-8"
                           label="Nivel de estudio"
-                          label-for="input-2"
+                          label-for="input-8"
                         >
                           <b-form-input
                             autocomplete="off"
-                            v-model="report.idLevel"
+                            v-model="report.level"
                             size="sm"
                             class="mt-3"
                             id="input-8"
@@ -165,19 +167,17 @@
                         <b-form-group
                           class="mt-3"
                           id="input-group-9"
-                          label="Periodo Escolar"
-                          label-for="input-2"
+                          label="Esudiante"
+                          label-for="input-9"
                         >
-                          <b-form-input
-                            autocomplete="off"
-                            v-model="report.idInternshipPeriod"
-                            size="sm"
-                            class="mt-3"
-                            id="input-9"
-                            type="text"
-                            placeholder="Ej. Mayo - Agosto"
-                            required
-                          ></b-form-input>
+                          <b-form-select 
+                          v-model="report.idInternshipPeriod" 
+                          class="form-control mt-3"
+                          >
+                              <b-form-select-option v-for="ip in internshipPeriods" v-bind:key="ip.idInternshipPeriod" v-bind:value="ip.idInternshipPeriod">
+                                {{ip.name +"-"+ip.year}}
+                              </b-form-select-option>
+                          </b-form-select>
                         </b-form-group>
                       </b-col>
                       <b-col cols="6">
@@ -185,7 +185,7 @@
                           class="mt-3"
                           id="input-group-10"
                           label="Palabras clave"
-                          label-for="input-2"
+                          label-for="input-10"
                         >
                           <b-form-input
                             autocomplete="off"
@@ -241,15 +241,15 @@ import Swal from 'sweetalert2'
 
 Vue.use(VueRouter);
   export default {
-    name: "RegistrarReporte",
+    name: "ModificarReporte",
     components: {
     headerAdmin,
   },
     data() {
       return {
         librarian: JSON.parse(localStorage.getItem('user')),
-        student: {},
         students: [],
+        internshipPeriods: [],
         report: {
           idReport: '',
           name: '',
@@ -298,7 +298,6 @@ Vue.use(VueRouter);
           body: fieldsForm
         })
         .then(function(response) {
-          console.log(response)
           if (response.ok) {
             Swal.fire('Registrado', 'El reporte ha sido registrado satisfactoriamente', 'success')
             route.$router.push("/librarian/consultar-reportes");
@@ -313,8 +312,9 @@ Vue.use(VueRouter);
         });
       }
     },
-    created() {
+    mounted() {
       const id = this.$route.params.idReport;
+
       api
         .doGet("api/reports/"+id)
         .then((response) => {
@@ -329,6 +329,15 @@ Vue.use(VueRouter);
         .doGet("api/students/")
         .then((response) => {
           this.students = response.data
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+      api
+        .doGet("api/internship/")
+        .then((response) => {
+          this.internshipPeriods = response.data
         })
         .catch((error) => {
           console.log(error);

@@ -9,75 +9,86 @@
       <div class="mt-5">
         <b-table-simple responsive stripped hover>
           <b-thead head-variant="light">
-            <b-tr>
-              <b-th>Nombre</b-th>
-              <b-th>Apellido Paterno</b-th>
-              <b-th>Apellido Materno</b-th>
+             <b-tr>
+              <b-th>Nombre completo</b-th>
+              <b-th>Matrícula</b-th>
               <b-th>Carrera</b-th>
-              <b-th>Grado</b-th>
-              <b-th>Grupo</b-th>
-              <b-th>Acción</b-th>
+              <b-th>División académica</b-th>
+              <b-th>Nivel</b-th>
+              <b-th>Baja estudiante</b-th>
             </b-tr>
           </b-thead>
           <b-tbody>
-            <b-tr>
-              <b-td>Cell</b-td>
-              <b-td>Cell</b-td>
-              <b-td>Cell</b-td>
-              <b-td>Cell</b-td>
-              <b-td>Cell</b-td>
-              <b-td>Cell</b-td>
-              <b-td>
-                <b-button size="lg" variant="link" class="mb-2">
-                  <b-icon icon="x-circle" variant="danger"></b-icon>
-                </b-button>
-              </b-td>
-            </b-tr>
-            <b-tr>
-              <b-td>Cell</b-td>
-              <b-td>Cell</b-td>
-              <b-td>Cell</b-td>
-              <b-td>Cell</b-td>
-              <b-td>Cell</b-td>
-              <b-td>Cell</b-td>
-              <b-td>
-                <b-button size="lg" variant="link" class="mb-2">
-                  <b-icon icon="x-circle" variant="danger"></b-icon>
-                </b-button>
-              </b-td>
+            <b-tr v-for="student in students" v-bind:key="student.idStudentData">
+                <b-td>{{student.firstName + ' ' + student.lastName}}</b-td>
+                <b-td>{{student.enrollment}}</b-td>
+                <b-td>{{student.degree}}</b-td>
+                <b-td>{{student.divisionAcronym}}</b-td>
+                <b-td>{{student.levelAcronym}}</b-td>
+                <b-td>
+                    <b-button size="lg" variant="link" class="mb-2">
+                    <b-icon icon="x-circle" variant="danger"
+                        @click="studentLeave(student.idStudentData);"></b-icon>
+                    </b-button>
+                </b-td>
             </b-tr>
           </b-tbody>
         </b-table-simple>
       </div>
     </b-container>
-    <fondo />
   </div>
 </template>
 
 <script>
 import Vue from "vue";
 import VueRouter from "vue-router";
-import fondo from "../../components/Fondo";
 import headerAdmin from "../../components/HeaderAdmin";
-//import api from "../../util/api";
+import api from "../../util/api";
+import Swal from 'sweetalert2'
+
 Vue.use(VueRouter);
 
 export default {
   name: "BajaEstudiante",
   components: {
-    fondo,
     headerAdmin,
   },
   data() {
     return {
-      items: [
-        { age: 40, first_name: "Dickerson", last_name: "Macdonald" },
-        { age: 21, first_name: "Larsen", last_name: "Shaw" },
-        { age: 89, first_name: "Geneva", last_name: "Wilson" },
-        { age: 38, first_name: "Jami", last_name: "Carney" },
-      ],
+      students: []
     };
   },
+  methods: {
+    studentLeave(student){
+      const dataStudents = this;
+      api
+          .doPut("/api/students/delete/"+student)
+          .then(function ({ data }) {
+              if (data.status) {
+                  Swal.fire('Baja de estudiante', data.message, 'success')
+                  dataStudents.students = dataStudents.students.filter(s => s.idStudentData != student)
+              }
+          })
+          .catch(function (error) {
+              if (error.response.data.message) {
+                  Swal.fire('Error', error.response.data.message, 'error')
+              }
+          });
+    }
+  },
+  mounted(){
+    api
+      .doGet("api/students/")
+      .then((response) => {
+          console.log(response.data)
+          this.students = response.data
+      })
+      .catch((error) => {
+          if (error) {
+              console.log("Error al obtener las solicitudes");
+          }
+      });
+  }
 };
 </script>
 <style scoped>

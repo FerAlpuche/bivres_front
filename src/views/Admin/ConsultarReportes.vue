@@ -25,28 +25,27 @@
                 <b-tbody>
                     <b-tr v-for="report in reports" v-bind:key="report.idReport">
                         <b-td>{{report.name}}</b-td>
-                        <b-td>{{report.idAcademicDivision}}</b-td>
-                        <b-td>{{report.idDegree}}</b-td>
-                        <b-td>{{report.idLevel}}</b-td>
+                        <b-td>{{report.division}}</b-td>
+                        <b-td>{{report.degree}}</b-td>
+                        <b-td>{{report.level}}</b-td>
                         <b-td>{{report.uploadedYear}}</b-td>
                         <b-td>
                             <b-button size="lg" variant="link" class="mb-2">
                                 <b-icon icon="file-earmark" variant="primary" 
-                                @click="
-                                $bvModal.show('bv-modal');
+                                @click="$bvModal.show('bv-modal');
                                 getFile(report.file);"></b-icon>
                             </b-button>
                         </b-td>
                         <b-td>
                             <b-button size="lg" variant="link" class="mb-2">
                             <b-icon icon="cloud-download" variant="success"
-                            @click="downloadFile(report.file);"></b-icon>
+                                @click="downloadFile(report.file);"></b-icon>
                             </b-button>
                         </b-td>
                         <b-td>
                             <b-button size="lg" variant="link" class="mb-2">
                             <b-icon icon="pencil-square" variant="warning"
-                            @click="updateReport(report.idReport);"></b-icon>
+                                @click="updateReport(report.idReport);"></b-icon>
                             </b-button>
                         </b-td>
                         <!--<b-td>
@@ -89,7 +88,7 @@ import Swal from 'sweetalert2'
 Vue.use(VueRouter);
 
 export default {
-    name: "ConsultarReportes",
+    name: "ConsultarReportesLibrarian",
     components: {
         headerAdmin,
     },
@@ -177,7 +176,6 @@ export default {
     created() {
       if (localStorage.getItem("firstAccess") == 1) {
         var user = JSON.parse(localStorage.getItem('user'));
-        console.log(user)
         const Toast = Swal.mixin({
           toast: true,
           position: 'top-end',
@@ -201,7 +199,6 @@ export default {
       api
         .doGet("api/reports/")
         .then((response) => {
-          console.log(response.data)
           this.reports = response.data
         })
         .catch((error) => {
