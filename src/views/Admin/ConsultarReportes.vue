@@ -11,7 +11,7 @@
         <b-table-simple fixed responsive hover>
           <b-thead id="my-table">
             <b-tr>
-              <b-th>Titulo del Proyecto</b-th>
+              <b-th>Título del Proyecto</b-th>
               <b-th>División Académica</b-th>
               <b-th>Carrera</b-th>
               <b-th>Nivel Académico</b-th>
@@ -60,11 +60,11 @@
                 </b-button>
               </b-td>
               <!--<b-td>
-                            <b-button size="lg" variant="link" class="mb-2">
-                            <b-icon icon="trash-fill" variant="danger"
-                            @click="deleteReport(report.idReport);"></b-icon>
-                            </b-button>
-                        </b-td>-->
+                    <b-button size="lg" variant="link" class="mb-2">
+                    <b-icon icon="trash-fill" variant="danger"
+                    @click="deleteReport(report.idReport);"></b-icon>
+                    </b-button>
+                </b-td>-->
             </b-tr>
           </b-tbody>
         </b-table-simple>

@@ -316,9 +316,6 @@
     </b-container>
   </div>
 </template>
-<!--
-
- -->
 
 <script>
 import Vue from "vue";
