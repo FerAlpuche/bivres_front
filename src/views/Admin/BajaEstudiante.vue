@@ -88,7 +88,6 @@ export default {
     api
       .doGet("api/students/")
       .then((response) => {
-        console.log(response.data);
         this.students = response.data;
       })
       .catch((error) => {

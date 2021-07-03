@@ -143,7 +143,6 @@ export default {
   created() {
     if (localStorage.getItem("firstAccess") == 1) {
       var user = JSON.parse(localStorage.getItem("user"));
-      console.log(user);
       const Toast = Swal.mixin({
         toast: true,
         position: "top-end",
@@ -173,7 +172,6 @@ export default {
       api
         .doGet("/api/reports")
         .then((response) => {
-          console.log(response);
           this.reports = response.data;
         })
         .catch((error) => {
@@ -185,7 +183,6 @@ export default {
       api
         .doGet("/api/division")
         .then((response) => {
-          console.log(response);
           this.divisions = response.data;
         })
         .catch((error) => {
@@ -197,7 +194,6 @@ export default {
       api
         .doGet("/api/degree")
         .then((response) => {
-          console.log(response);
           this.careers = response.data;
         })
         .catch((error) => {

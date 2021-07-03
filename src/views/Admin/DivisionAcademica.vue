@@ -279,7 +279,6 @@ export default {
       api
         .doGet("/api/division")
         .then((response) => {
-          console.log(response);
           this.divisions = response.data;
         })
         .catch((error) => {
