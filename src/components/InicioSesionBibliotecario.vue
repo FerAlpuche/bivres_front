@@ -91,9 +91,6 @@
                 </b-card-body>
               </b-col>
             </b-row>
-            <!-- <template #footer>
-              <p>¿No te has registrado? Haz click <a href="">aquí</a></p>
-            </template> -->
           </b-card>
         </b-col>
       </b-row>
@@ -146,7 +143,7 @@ export default {
             .catch(function (error) {
               if (error.response.data.isValid) {
                 route.flag = true;
-                route.errorMessage = "Correo electrónico y/o contraseña no válidos";
+                route.errorMessage = "Correo electrónico y/o contraseña incorrectos";
               }else{
                 route.flag = true;
                 route.errorMessage = "Ingresa un correo electrónico válido";

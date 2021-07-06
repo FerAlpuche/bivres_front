@@ -29,7 +29,7 @@
                 >
                 <div>
                   <b-alert class="mt-4" variant="danger" show v-if="flag">
-                    {{errorMessage}}
+                    {{ errorMessage }}
                   </b-alert>
                 </div>
 
@@ -90,9 +90,9 @@
                 </b-card-body>
               </b-col>
             </b-row>
-            <!-- <template #footer>
+            <template #footer>
               <p>¿No te has registrado? Haz click <a href="/student/registro-estudiante">aquí</a></p>
-            </template> -->
+            </template>
           </b-card>
         </b-col>
       </b-row>
@@ -142,15 +142,14 @@ export default {
           }
         })
         .catch(function (error) {
-          console.log(error)
           if (!error.response.data.isValid) {
             route.flag = true;
-            route.errorMessage = "Matrícula y/o contraseña no válidas";
+            route.errorMessage = error.response.data.message;
           }
         });
       } else {
         this.flag = true;
-        this.errorMessage = "Todos los campos deben de llenarse";
+        this.errorMessage = "Todos los campos son obligatorios";
       }
     },
     librarianLogin() {
