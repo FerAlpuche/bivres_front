@@ -3,7 +3,7 @@
     <headerAdmin />
     <br />
     <div class="funciones">
-      <h3>Baja de Estudiantes</h3>
+      <h3>Consultar solicitudes de estudiantes</h3>
     </div>
     <b-container>
       <div class="mt-5">
@@ -15,7 +15,8 @@
               <b-th>Carrera</b-th>
               <b-th>División académica</b-th>
               <b-th>Nivel</b-th>
-              <b-th>Baja estudiante</b-th>
+              <b-th>Aceptar</b-th>
+              <b-th>Rechazar</b-th>
             </b-tr>
           </b-thead>
           <b-tbody>
@@ -26,14 +27,23 @@
               <b-td>{{ student.firstName + " " + student.lastName }}</b-td>
               <b-td>{{ student.enrollment }}</b-td>
               <b-td>{{ student.degree }}</b-td>
-              <b-td>{{ student.divisionAcronym }}</b-td>
-              <b-td>{{ student.levelAcronym }}</b-td>
+              <b-td>{{ student.division }}</b-td>
+              <b-td>{{ student.level }}</b-td>
+              <b-td>
+                <b-button size="lg" variant="link" class="mb-2">
+                  <b-icon
+                    icon="check-circle"
+                    variant="success"
+                    @click="acceptRequest(student.idStudentData)"
+                  ></b-icon>
+                </b-button>
+              </b-td>
               <b-td>
                 <b-button size="lg" variant="link" class="mb-2">
                   <b-icon
                     icon="x-circle"
                     variant="danger"
-                    @click="studentLeave(student.idStudentData)"
+                    @click="deletetRequest(student.idStudentData)"
                   ></b-icon>
                 </b-button>
               </b-td>
@@ -55,7 +65,7 @@ import Swal from "sweetalert2";
 Vue.use(VueRouter);
 
 export default {
-  name: "BajaEstudiante",
+  name: "ConsultarSolicitudes",
   components: {
     headerAdmin,
   },
@@ -65,13 +75,37 @@ export default {
     };
   },
   methods: {
-    studentLeave(student) {
+    acceptRequest(student) {
       const dataStudents = this;
       api
-        .doPut("/api/students/delete/" + student)
+        .doPut("/api/students/requests", {
+          idUser: student,
+          status: 1,
+        })
         .then(function ({ data }) {
           if (data.status) {
-            Swal.fire("Baja de estudiante", data.message, "success");
+            Swal.fire("Aceptada", data.message, "success");
+            dataStudents.students = dataStudents.students.filter(
+              (s) => s.idStudentData != student
+            );
+          }
+        })
+        .catch(function (error) {
+          if (error.response.data.message) {
+            Swal.fire("Error", error.response.data.message, "error");
+          }
+        });
+    },
+    deletetRequest(student) {
+      const dataStudents = this;
+      api
+        .doPut("/api/students/requests", {
+          idUser: student,
+          status: 0,
+        })
+        .then(function ({ data }) {
+          if (data.status) {
+            Swal.fire("Rechazada", data.message, "success");
             dataStudents.students = dataStudents.students.filter(
               (s) => s.idStudentData != student
             );
@@ -86,7 +120,7 @@ export default {
   },
   mounted() {
     api
-      .doGet("api/students/")
+      .doGet("api/students/requests")
       .then((response) => {
         this.students = response.data;
       })
@@ -98,6 +132,7 @@ export default {
   },
 };
 </script>
+
 <style scoped>
 .funciones {
   color: #0d6efd;

@@ -290,7 +290,6 @@ export default {
       api
         .doGet("/api/division")
         .then((response) => {
-          console.log(response);
           this.divisions = response.data
         })
         .catch((error) => {
@@ -302,7 +301,6 @@ export default {
       api
         .doGet("/api/level")
         .then((response) => {
-          console.log(response);
           this.levels = response.data
         })
         .catch((error) => {
@@ -314,7 +312,6 @@ export default {
       api
         .doGet("/api/degree")
         .then((response) => {
-          console.log(response);
           this.degrees = response.data
         })
         .catch((error) => {

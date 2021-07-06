@@ -5,7 +5,6 @@
 </template>
 
 <script>
-//import HelloWorld from './components/HelloWorld.vue'
 import InicioSesion from "../components/InicioSesion.vue";
 export default {
   name: "Login",

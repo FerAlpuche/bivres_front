@@ -47,8 +47,8 @@
         </b-row>
       </div>
       <div class="mt-5">
-        <b-table-simple fixed responsive stripped hover>
-          <b-thead head-variant="light" id="my-table">
+        <b-table-simple fixed responsive hover>
+          <b-thead id="my-table">
             <b-tr>
               <b-th>#</b-th>
               <b-th>Titulo del Proyecto</b-th>
@@ -69,7 +69,14 @@
               <b-td>{{ report.uploadedYear }}</b-td>
               <b-td>
                 <b-button size="lg" variant="link" class="mb-2">
-                  <b-icon icon="file-earmark" variant="primary"></b-icon>
+                  <b-icon
+                    icon="file-earmark"
+                    variant="primary"
+                    @click="
+                      $bvModal.show('bv-modal');
+                      getFile(report.file);
+                    "
+                  ></b-icon>
                 </b-button>
               </b-td>
             </b-tr>
@@ -78,6 +85,25 @@
       </div>
     </b-container>
     <br />
+
+    <b-modal
+      centered
+      title="Visualizar PDF"
+      id="bv-modal"
+      size="lg"
+      scrollable
+      hide-header-close
+      ok-only
+    >
+      <div class="d-block text-center">
+        <iframe
+          :src="dir"
+          style="width: 100%; height: 800px"
+          frameborder="0"
+        ></iframe>
+      </div>
+    </b-modal>
+
     <b-container>
       <b-pagination
         v-model="currentPage"
@@ -106,6 +132,7 @@ export default {
   },
   data() {
     return {
+      dir: "",
       rows: 100,
       currentPage: 1,
       reports: [],
@@ -116,7 +143,6 @@ export default {
   created() {
     if (localStorage.getItem("firstAccess") == 1) {
       var user = JSON.parse(localStorage.getItem("user"));
-      console.log(user);
       const Toast = Swal.mixin({
         toast: true,
         position: "top-end",
@@ -146,7 +172,6 @@ export default {
       api
         .doGet("/api/reports")
         .then((response) => {
-          console.log(response);
           this.reports = response.data;
         })
         .catch((error) => {
@@ -158,7 +183,6 @@ export default {
       api
         .doGet("/api/division")
         .then((response) => {
-          console.log(response);
           this.divisions = response.data;
         })
         .catch((error) => {
@@ -170,13 +194,44 @@ export default {
       api
         .doGet("/api/degree")
         .then((response) => {
-          console.log(response);
           this.careers = response.data;
         })
         .catch((error) => {
           console.error(error);
         })
         .finally(() => (this.loading = false));
+    },
+
+    getFile(url) {
+      api
+        .doPostPDF("api/reports/file/", {
+          file: url,
+        })
+        .then((response) => {
+          let blob = new Blob([response.data], { type: "application/pdf" });
+          let data = window.URL.createObjectURL(blob);
+          this.dir = data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    downloadFile(url) {
+      api
+        .doPostPDF("api/reports/file/", {
+          file: url,
+        })
+        .then((response) => {
+          let blob = new Blob([response.data], { type: "application/pdf" });
+          let data = window.URL.createObjectURL(blob);
+          let link = document.createElement("a");
+          link.href = data;
+          link.download = url;
+          link.click();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   },
 };

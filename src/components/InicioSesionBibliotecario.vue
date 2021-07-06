@@ -91,9 +91,9 @@
                 </b-card-body>
               </b-col>
             </b-row>
-            <template #footer>
+            <!-- <template #footer>
               <p>¿No te has registrado? Haz click <a href="">aquí</a></p>
-            </template>
+            </template> -->
           </b-card>
         </b-col>
       </b-row>
@@ -134,24 +134,16 @@ export default {
               password: this.user.password,
             })
             .then(function ({ data }) {
-              console.log(data)
               if (data) {
                 localStorage.setItem("token", data.token);
                 localStorage.setItem("role", data.role);
                 localStorage.setItem('user', JSON.stringify(data.user));
                 localStorage.setItem("isAuthenticated", 1);
                 localStorage.setItem("firstAccess", 1);
+                route.$router.push("/librarian/consultar-reportes");
               }
-
-              if (data.role == "librarian") {
-                route.$router.push("/librarian/registrar-reporte");
-              } else {
-                route.$router.push("/student/consultar-reportes");
-              }
-
             })
             .catch(function (error) {
-              console.log(error)
               if (error.response.data.isValid) {
                 route.flag = true;
                 route.errorMessage = "Correo electrónico y/o contraseña no válidos";

@@ -90,9 +90,9 @@
                 </b-card-body>
               </b-col>
             </b-row>
-            <template #footer>
+            <!-- <template #footer>
               <p>¿No te has registrado? Haz click <a href="/student/registro-estudiante">aquí</a></p>
-            </template>
+            </template> -->
           </b-card>
         </b-col>
       </b-row>
