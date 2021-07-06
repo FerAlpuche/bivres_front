@@ -271,7 +271,7 @@ export default {
           })
           .then(function(response) {
             if (response.ok) {
-              Swal.fire('Registrado', 'El estudiante ha sido registrado satisfactoriamente', 'success')
+              Swal.fire('Registro exitoso', 'Su solicitud ha sido enviada, favor de esperar su validación', 'info')
               route.$router.push("/");
             }else{
               Swal.fire('Error', 'Lo sentimos, hubo un error al registrar al estudiante', 'error')
