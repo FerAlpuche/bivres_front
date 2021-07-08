@@ -77,45 +77,69 @@ export default {
   methods: {
     acceptRequest(student) {
       const dataStudents = this;
-      api
-        .doPut("/api/students/requests", {
-          idStudentData: student,
-          status: 1,
-        })
-        .then(function ({ data }) {
-          if (data.status) {
-            Swal.fire("Aceptada", data.message, "success");
-            dataStudents.students = dataStudents.students.filter(
-              (s) => s.idStudentData != student
-            );
-          }
-        })
-        .catch(function (error) {
-          if (error.response.data.message) {
-            Swal.fire("Error", error.response.data.message, "error");
-          }
-        });
+      Swal.fire({
+        title: "¿Desea aceptar la solicitud del estudiante?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sí, aceptar",
+        cancelButtonText: "Cancelar",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          api
+            .doPut("/api/students/requests", {
+              idStudentData: student,
+              status: 1,
+            })
+            .then(function ({ data }) {
+              if (data.status) {
+                Swal.fire("Aceptada", data.message, "success");
+                dataStudents.students = dataStudents.students.filter(
+                  (s) => s.idStudentData != student
+                );
+              }
+            })
+            .catch(function (error) {
+              if (error.response.data.message) {
+                Swal.fire("Error", error.response.data.message, "error");
+              }
+            });
+        }
+      });
     },
     deletetRequest(student) {
       const dataStudents = this;
-      api
-        .doPut("/api/students/requests", {
-          idStudentData: student,
-          status: 0,
-        })
-        .then(function ({ data }) {
-          if (data.status) {
-            Swal.fire("Rechazada", data.message, "success");
-            dataStudents.students = dataStudents.students.filter(
-              (s) => s.idStudentData != student
-            );
-          }
-        })
-        .catch(function (error) {
-          if (error.response.data.message) {
-            Swal.fire("Error", error.response.data.message, "error");
-          }
-        });
+      Swal.fire({
+        title: "¿Desea rechazar la solicitud del estudiante?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sí, rechazar",
+        cancelButtonText: "Cancelar",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          api
+            .doPut("/api/students/requests", {
+              idStudentData: student,
+              status: 0,
+            })
+            .then(function ({ data }) {
+              if (data.status) {
+                Swal.fire("Rechazada", data.message, "success");
+                dataStudents.students = dataStudents.students.filter(
+                  (s) => s.idStudentData != student
+                );
+              }
+            })
+            .catch(function (error) {
+              if (error.response.data.message) {
+                Swal.fire("Error", error.response.data.message, "error");
+              }
+            });
+        }
+      });
     },
   },
   mounted() {

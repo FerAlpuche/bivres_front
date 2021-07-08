@@ -11,6 +11,7 @@
         <b-table-simple fixed responsive hover>
           <b-thead id="my-table">
             <b-tr>
+              <b-th>#</b-th>
               <b-th>Título del Proyecto</b-th>
               <b-th>División Académica</b-th>
               <b-th>Carrera</b-th>
@@ -23,11 +24,12 @@
             </b-tr>
           </b-thead>
           <b-tbody>
-            <b-tr v-for="report in reports" v-bind:key="report.idReport">
+            <b-tr v-for="(report, item) in reports" v-bind:key="report.idReport">
+              <b-td>{{ item + 1 }}</b-td>
               <b-td>{{ report.reportName }}</b-td>
               <b-td>{{ report.divisionAcronym }}</b-td>
               <b-td>{{ report.degreeName }}</b-td>
-              <b-td>{{ report.levelName }}</b-td>
+              <b-td>{{ report.levelAcronym }}</b-td>
               <b-td>{{ report.uploadedYear }}</b-td>
               <b-td>
                 <b-button size="lg" variant="link" class="mb-2">

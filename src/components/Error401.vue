@@ -7,6 +7,7 @@
         <br>
         <img src="../assets/error401.png" style="height: 170px;"/>
       </div>
+    <br>
     <button class="btn btn-dark" @click="back()">Regresar</button>
     </div>
 </template>
@@ -19,7 +20,7 @@ Vue.use(VueRouter);
 export default {
   methods: {
     back() {
-      this.$router.go(-1);
+      this.$router.push("/")
     },
   },
 };

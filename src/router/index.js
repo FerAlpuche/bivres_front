@@ -189,7 +189,7 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  if (to.name == 'Login' && localStorage.getItem("isAuthenticated") == 1 && localStorage.getItem("role") == "librarian") next("/librarian/registrar-reporte")
+  if (to.name == 'Login' && localStorage.getItem("isAuthenticated") == 1 && localStorage.getItem("role") == "librarian") next("/librarian/consultar-reportes")
   else if (to.name == 'Login' && localStorage.getItem("isAuthenticated") == 1 && localStorage.getItem("role") == "student") next("/student/consultar-reportes")
   else next()
 })

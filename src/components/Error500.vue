@@ -2,14 +2,30 @@
     <div>
       <br>
       <div id="divP">
-        <p>500</p>
-        <p id="p2">Lo sentimos, algo salió mal</p>
+        <p>403</p>
+        <p id="p2">Lo sentimos, algo salió mal.</p>
         <br>
         <img src="../assets/error500.png" style="height: 170px;"/>
       </div>
-
+    <br>
+    <button class="btn btn-dark" @click="back()">Regresar</button>
     </div>
 </template>
+
+<script>
+import Vue from "vue";
+import VueRouter from "vue-router";
+
+Vue.use(VueRouter);
+export default {
+  methods: {
+    back() {
+      this.$router.push("/")
+    },
+  },
+};
+</script>
+
 
 <style scoped>
 body {

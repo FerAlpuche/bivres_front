@@ -67,21 +67,33 @@ export default {
   methods: {
     studentLeave(student) {
       const dataStudents = this;
-      api
-        .doPut("/api/students/delete/" + student)
-        .then(function ({ data }) {
-          if (data.status) {
-            Swal.fire("Baja de estudiante", data.message, "success");
-            dataStudents.students = dataStudents.students.filter(
-              (s) => s.idStudentData != student
-            );
-          }
-        })
-        .catch(function (error) {
-          if (error.response.data.message) {
-            Swal.fire("Error", error.response.data.message, "error");
-          }
-        });
+      Swal.fire({
+        title: "¿Desea dar de bajar al estudiante?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sí, dar de baja",
+        cancelButtonText: "Cancelar",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          api
+            .doPut("/api/students/delete/" + student)
+            .then(function ({ data }) {
+              if (data.status) {
+                Swal.fire("Baja de estudiante", data.message, "success");
+                dataStudents.students = dataStudents.students.filter(
+                  (s) => s.idStudentData != student
+                );
+              }
+            })
+            .catch(function (error) {
+              if (error.response.data.message) {
+                Swal.fire("Error", error.response.data.message, "error");
+              }
+            });
+        }
+      });
     },
   },
   mounted() {

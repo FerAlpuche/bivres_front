@@ -3,7 +3,7 @@
     <headerEstudiante />
     <br />
     <div class="funciones">
-      <h3>Consulta de Reportes de Estadia</h3>
+      <h3>Consulta de reportes de estadía</h3>
     </div>
     <br />
     <b-container>
@@ -14,14 +14,19 @@
             <b-form-input
               type="text"
               placeholder="Ingrese el título del reporte"
+              v-model="selectTitle"
             ></b-form-input>
           </b-col>
           <b-col cols="3">
             <h5 align="left">División Académica</h5>
-            <b-form-select class="form-select">
+            <b-form-select 
+              class="form-select"
+              v-model="selectDivision"
+              v-on:change="getSelectDivision();">
               <b-form-select-option
                 v-for="division in divisions"
-                :key="division.id"
+                :key="division.idAcademicDivision"
+                :value="division.idAcademicDivision"
               >
                 {{ division.name }}
               </b-form-select-option>
@@ -29,20 +34,33 @@
           </b-col>
           <b-col cols="3">
             <h5 align="left">Carrera</h5>
-            <b-form-select class="form-select">
-              <b-form-select-option v-for="career in careers" :key="career.id">
+            <b-form-select class="form-select" v-model="selectDegree">
+              <b-form-select-option v-for="career in careers" :key="career.idDegree" :value="career.acronym">
                 {{ career.name }}
               </b-form-select-option>
             </b-form-select>
           </b-col>
           <b-col cols="3">
             <h5 align="left">Año de publicación</h5>
-            <b-form-datepicker minimum-view="year"></b-form-datepicker>
+            <b-form-datepicker minimum-view="year" v-model="selectYear"></b-form-datepicker>
           </b-col>
         </b-row>
-        <b-row class="mt-3" align-h="start">
+        <b-row class="mt-3">
           <b-col cols="1">
-            <b-button block variant="outline-primary">Buscar...</b-button>
+            <b-button block variant="primary" @click="searchReport();">
+              <b-icon
+                icon="search"
+                variant="light"
+              ></b-icon>
+            </b-button>
+          </b-col>
+          <b-col cols="1" v-if="clean">
+            <b-button block variant="warning" @click="cleanFilters();">
+              <b-icon
+                icon="backspace-fill"
+                variant="dark"
+              ></b-icon>
+            </b-button>
           </b-col>
         </b-row>
       </div>
@@ -65,7 +83,7 @@
               <b-td>{{ report.reportName }}</b-td>
               <b-td>{{ report.divisionAcronym }}</b-td>
               <b-td>{{ report.degreeName }}</b-td>
-              <b-td>{{ report.levelName }}</b-td>
+              <b-td>{{ report.levelAcronym }}</b-td>
               <b-td>{{ report.uploadedYear }}</b-td>
               <b-td>
                 <b-button size="lg" variant="link" class="mb-2">
@@ -135,7 +153,13 @@ export default {
       dir: "",
       rows: 100,
       currentPage: 1,
+      selectTitle: "",
+      selectDivision: "",
+      selectDegree: "",
+      selectYear: "",
+      clean: false,
       reports: [],
+      reportsCopy: [],
       divisions: [],
       careers: [],
     };
@@ -165,7 +189,6 @@ export default {
   beforeMount() {
     this.getReports();
     this.getDivisions();
-    this.getCareers();
   },
   methods: {
     getReports() {
@@ -173,6 +196,7 @@ export default {
         .doGet("/api/reports")
         .then((response) => {
           this.reports = response.data;
+          this.reportsCopy = response.data;
         })
         .catch((error) => {
           console.log(error);
@@ -190,18 +214,6 @@ export default {
         })
         .finally(() => (this.loading = false));
     },
-    getCareers() {
-      api
-        .doGet("/api/degree")
-        .then((response) => {
-          this.careers = response.data;
-        })
-        .catch((error) => {
-          console.error(error);
-        })
-        .finally(() => (this.loading = false));
-    },
-
     getFile(url) {
       api
         .doPostPDF("api/reports/file/", {
@@ -233,6 +245,64 @@ export default {
           console.log(error);
         });
     },
+    getSelectDivision () {
+      this.clean = true;
+      api
+        .doGet("/api/degree/"+ this.selectDivision)
+        .then((response) => {
+          this.careers = response.data
+        })
+        .catch((error) => {
+          console.error(error);
+        })
+        .finally(() => (this.loading = false));
+    },
+    cleanFilters() {
+      this.reports = this.reportsCopy
+      this.selectTitle = "";
+      this.selectDivision = "";
+      this.selectDegree = "";
+      this.selectYear = "";
+      this.clean = false;
+    },
+    searchReport() {
+      if (this.selectTitle != "" || this.selectDivision != "" || this.selectDegree != "" || this.selectYear != "") {
+        this.clean = true;
+        if (this.selectDivision != "") {
+          if (this.divisions.filter(d => d.idAcademicDivision == this.selectDivision).length > 0) {
+            api
+              .doPost("/api/reports/search", {
+                title: this.selectTitle,
+                division: this.divisions.filter(d => d.idAcademicDivision == this.selectDivision)[0].acronym,
+                degree: this.selectDegree,
+                year: this.selectYear.split("-")[0],
+              })
+              .then((response) => {
+                this.reports = response.data;
+              })
+              .catch((error) => {
+                console.error(error);
+              })
+              .finally(() => (this.loading = false));
+          }
+        } else {
+          api
+            .doPost("/api/reports/search", {
+              title: this.selectTitle,
+              division: this.selectDivision,
+              degree: this.selectDegree,
+              year: this.selectYear.split("-")[0],
+            })
+            .then((response) => {
+              this.reports = response.data;
+            })
+            .catch((error) => {
+              console.error(error);
+            })
+            .finally(() => (this.loading = false));
+        }
+      }
+    }
   },
 };
 </script>
