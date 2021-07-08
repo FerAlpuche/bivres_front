@@ -31,7 +31,7 @@
                             class="mt-3"
                             id="input-1"
                             type="text"
-                            placeholder="Ej. Aplicaciones Móviles"
+                            placeholder="Ingresar el nombre del proyecto"
                             required
                           ></b-form-input>
                         </b-form-group>
@@ -43,16 +43,18 @@
                           label="Descripción del Proyecto"
                           label-for="input-2"
                         >
-                          <b-form-input
+                          <b-form-textarea
                             autocomplete="off"
                             v-model="report.description"
                             size="sm"
                             class="mt-3"
                             id="input-2"
                             type="text"
-                            placeholder="Ej. Proyecto..."
+                            placeholder="Ingresar la descripción del proyecto"
+                            rows="3"
+                            max-rows="6"
                             required
-                          ></b-form-input>
+                          ></b-form-textarea>
                         </b-form-group>
                       </b-col>
                       <b-col cols="6">
@@ -69,7 +71,7 @@
                             class="mt-3"
                             id="input-3"
                             type="text"
-                            placeholder="Ej. 2021"
+                            placeholder="Ingresar el año de publicación"
                             required
                           ></b-form-input>
                         </b-form-group>
@@ -99,50 +101,58 @@
                           label="Esudiante"
                           label-for="input-5"
                         >
-                        <b-form-select 
-                        v-model="report.idStudent" 
-                        class="form-control mt-3"
-                        >
-                            <b-form-select-option v-for="s in students" v-bind:key="s.idStudentData" v-bind:value="s.idStudentData">
-                              {{s.firstName +" "+s.lastName}}
-                            </b-form-select-option>
-                        </b-form-select>
+                          <b-form-input
+                            autocomplete="off"
+                            v-model="report.nameStudent"
+                            size="sm"
+                            class="mt-3"
+                            id="input-5"
+                            type="text"
+                            placeholder="Ingresar nombre del estudiante"
+                          ></b-form-input>
                         </b-form-group>
                       </b-col>
                       <b-col cols="6">
                         <b-form-group
                           class="mt-3"
                           id="input-group-6"
-                          label="Carrera"
-                          label-for="input-6"
+                          label="División académica"
                         >
-                          <b-form-input
-                            autocomplete="off"
-                            v-model="report.degree"
-                            size="sm"
-                            class="mt-3"
-                            id="input-6"
-                            type="text"
-                            disabled
-                          ></b-form-input>
+                          <b-form-select
+                            v-model="report.idAcademicDivision"
+                            class="form-control mt-3"
+                            v-on:change="getSelectDivision();"
+                          >
+                            <b-form-select-option
+                              v-for="ac in divisions"
+                              v-bind:key="ac.idAcademicDivision"
+                              v-bind:value="ac.idAcademicDivision"
+                              >{{
+                                ac.name
+                              }}</b-form-select-option
+                            >
+                          </b-form-select>
                         </b-form-group>
                       </b-col>
                       <b-col cols="6">
                         <b-form-group
                           class="mt-3"
                           id="input-group-7"
-                          label="División académica"
-                          label-for="input-7"
+                          label="Carrera"
                         >
-                          <b-form-input
-                            autocomplete="off"
-                            v-model="report.division"
-                            size="sm"
-                            class="mt-3"
-                            id="input-7"
-                            type="text"
-                            disabled
-                          ></b-form-input>
+                          <b-form-select
+                            v-model="report.idDegree"
+                            class="form-control mt-3"
+                          >
+                            <b-form-select-option
+                              v-for="dg in degrees"
+                              v-bind:key="dg.idDegree"
+                              v-bind:value="dg.idDegree"
+                              >{{
+                                dg.name
+                              }}</b-form-select-option
+                            >
+                          </b-form-select>
                         </b-form-group>
                       </b-col>
                       <b-col cols="6">
@@ -150,25 +160,27 @@
                           class="mt-3"
                           id="input-group-8"
                           label="Nivel de estudio"
-                          label-for="input-8"
                         >
-                          <b-form-input
-                            autocomplete="off"
-                            v-model="report.level"
-                            size="sm"
-                            class="mt-3"
-                            id="input-8"
-                            type="text"
-                            disabled
-                          ></b-form-input>
+                          <b-form-select
+                            v-model="report.idLevel"
+                            class="form-control mt-3"
+                          >
+                            <b-form-select-option
+                              v-for="lv in levels"
+                              v-bind:key="lv.idLevel"
+                              v-bind:value="lv.idLevel"
+                              >{{
+                                lv.name
+                              }}</b-form-select-option
+                            >
+                          </b-form-select>
                         </b-form-group>
                       </b-col>
                       <b-col cols="6">
                         <b-form-group
                           class="mt-3"
                           id="input-group-9"
-                          label="Esudiante"
-                          label-for="input-9"
+                          label="Periodo escolar"
                         >
                           <b-form-select 
                           v-model="report.idInternshipPeriod" 
@@ -194,19 +206,20 @@
                             class="mt-3"
                             id="input-10"
                             type="text"
-                            placeholder="Ej. TICS, Industrial, Electronica"
+                            placeholder="Ingresar las palabras claves del reporte"
                             required
                           ></b-form-input>
                         </b-form-group>
                       </b-col>
                       <b-col cols="6">
-                        <b-form-group 
-                        label="Archivo PDF:" 
-                        label-cols-sm="4"
-                        class="mt-3">
+                        <b-form-group
+                          label="Reporte en formato PDF"
+                          class="mt-3">
                           <b-form-file 
                             v-model="file"
                             accept=".pdf"
+                            placeholder="Elija una archivo PDF o suéltelo aquí..."
+                            drop-placeholder="Suelte el archivo aquí"
                             class="form-control"
                             name="file"
                             id="file"
@@ -218,7 +231,7 @@
                   </b-form>
                   <div class="mx-auto">
                     <b-button pill class="mt-5 w-50" variant="primary" type="button" @click="updateReport(report.idReport)">
-                      Registrar
+                      Modificar
                       <b-icon class="float-right" icon="file-earmark-text-fill"></b-icon>
                     </b-button>
                   </div>
@@ -248,14 +261,16 @@ Vue.use(VueRouter);
     data() {
       return {
         librarian: JSON.parse(localStorage.getItem('user')),
-        students: [],
+        divisions: [],
+        levels: [],
+        degrees: [],
         internshipPeriods: [],
         report: {
           idReport: '',
           name: '',
           description: '',
           uploadedYear: '',
-          idStudent: '',
+          nameStudent: '',
           idLibrarian: 3,
           idAcademicDivision: '',
           idInternshipPeriod: 1,
@@ -277,7 +292,7 @@ Vue.use(VueRouter);
         fieldsForm.append("description", this.report.description)
         fieldsForm.append("uploadedYear", this.report.uploadedYear)  
         fieldsForm.append("idLibrarian", this.report.idLibrarian)
-        fieldsForm.append("idStudent", this.report.idStudent)
+        fieldsForm.append("nameStudent", this.report.idStudent)
         fieldsForm.append("idDegree", this.report.idDegree)
         fieldsForm.append("idAcademicDivision", this.report.idAcademicDivision)
         fieldsForm.append("idLevel", this.report.idLevel)
@@ -310,7 +325,18 @@ Vue.use(VueRouter);
             Swal.fire('Error', 'Lo sentimos, hubo un error al registrar el reporte', 'error')
           }
         });
-      }
+      },
+      getSelectDivision() {
+        const id = this.report.idAcademicDivision
+        api
+          .doGet("api/degree/"+id)
+          .then((response) => {
+            this.degrees = response.data;
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      },
     },
     mounted() {
       const id = this.$route.params.idReport;
@@ -320,15 +346,33 @@ Vue.use(VueRouter);
         .then((response) => {
           this.report = response.data.length > 0 ? this.report = response.data[0] : this.report = {};
           this.report.keywords = JSON.parse(this.report.keywords).replaceAll('"', '');
+
+          api
+            .doGet("api/degree/"+this.report.idAcademicDivision)
+            .then((response) => {
+              this.degrees = response.data;
+            })
+            .catch((error) => {
+              console.log(error);
+            });
         })
         .catch((error) => {
           console.log(error);
         });
 
       api
-        .doGet("api/students/")
+        .doGet("api/division/")
         .then((response) => {
-          this.students = response.data
+          this.divisions = response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+      api
+        .doGet("api/level/")
+        .then((response) => {
+          this.levels = response.data;
         })
         .catch((error) => {
           console.log(error);

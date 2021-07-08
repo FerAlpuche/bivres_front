@@ -79,7 +79,7 @@ export default {
       const dataStudents = this;
       api
         .doPut("/api/students/requests", {
-          idUser: student,
+          idStudentData: student,
           status: 1,
         })
         .then(function ({ data }) {
@@ -100,7 +100,7 @@ export default {
       const dataStudents = this;
       api
         .doPut("/api/students/requests", {
-          idUser: student,
+          idStudentData: student,
           status: 0,
         })
         .then(function ({ data }) {

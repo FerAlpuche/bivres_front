@@ -84,15 +84,16 @@
                             label-for="input-2"
                           >
                             <b-form-select 
-                            v-model="student.academicDivision" 
-                            name="divs"
-                            size="sm" 
-                            class="form-select form-select-sm mt-3">
-                              <option v-for="div in divisions" 
-                              v-bind:key="div.idAcademicDivision"
-                              v-bind:value="div.idAcademicDivision">
-                              {{div.name}}
-                              </option>
+                              v-model="student.academicDivision" 
+                              name="divs"
+                              size="sm" 
+                              class="form-select form-select-sm mt-3"
+                              v-on:change="getSelectDivision();">
+                                <option v-for="div in divisions" 
+                                  v-bind:key="div.idAcademicDivision"
+                                  v-bind:value="div.idAcademicDivision">
+                                  {{div.name}}
+                                </option>
                             </b-form-select>
                           </b-form-group>
                         </b-col>
@@ -174,18 +175,18 @@
                           </b-form-group>
                           </b-col>
                           <b-col cols="6">
-                        <b-form-group label="Credencial de estudiante" class="mt-2">
-                          <b-form-file 
-                            v-model="student.file"
-                            placeholder="Elija una imagen o suéltela aquí..."
-                            drop-placeholder="Suelte la imagen aquí..."
-                            accept="image/*"
-                            class="form-control"
-                            name="file" 
-                            id="file"
-                            required>
-                          </b-form-file>
-                        </b-form-group>
+                            <b-form-group label="Credencial de estudiante" class="mt-2">
+                              <b-form-file 
+                                v-model="student.file"
+                                placeholder="Elija una imagen o suéltela aquí..."
+                                drop-placeholder="Suelte la imagen aquí..."
+                                accept="image/*"
+                                class="form-control"
+                                name="file" 
+                                id="file"
+                                required>
+                              </b-form-file>
+                            </b-form-group>
                         </b-col>
                     </b-row>
                   </b-form>
@@ -244,7 +245,6 @@ export default {
     beforeMount() {
     this.getDivisions();
     this.getLevel();
-    this.getDegree();
   },
   methods: {
     registerStudent() {
@@ -323,6 +323,17 @@ export default {
         })
       }
     },
+    getSelectDivision () {
+      api
+        .doGet("/api/degree/"+this.student.academicDivision)
+        .then((response) => {
+          this.degrees = response.data
+        })
+        .catch((error) => {
+          console.error(error);
+        })
+        .finally(() => (this.loading = false));
+    },
     getDivisions(){
         api
           .doGet("/api/division")
@@ -339,17 +350,6 @@ export default {
           .doGet("/api/level")
           .then((response) => {
             this.levels = response.data
-          })
-          .catch((error) => {
-            console.error(error);
-          })
-          .finally(() => (this.loading = false));
-      },
-    getDegree(){
-        api
-          .doGet("/api/degree")
-          .then((response) => {
-            this.degrees = response.data
           })
           .catch((error) => {
             console.error(error);

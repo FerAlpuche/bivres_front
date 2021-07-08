@@ -141,21 +141,21 @@ export default {
               }
             })
             .catch(function (error) {
+              console.log(error.response.data)
+              route.flag = true;
               if (error.response.data.isValid) {
-                route.flag = true;
-                route.errorMessage = "Correo electrónico y/o contraseña incorrectos";
+                route.errorMessage = error.response.data.message;
               }else{
-                route.flag = true;
-                route.errorMessage = "Ingresa un correo electrónico válido";
+                route.errorMessage = error.response.data.message;
               }
             });
         }else{
           this.flag = true;
-          this.errorMessage = "Ingresa un correo electrónico válido";
+          this.errorMessage = "Favor de ingresar un correo electrónico válido";
         }
       } else {
         this.flag = true;
-        this.errorMessage = "Todos los campos deben de llenarse";
+        this.errorMessage = "Todos los campos son obligatorios";
       }
     },
     studentLogin() {
