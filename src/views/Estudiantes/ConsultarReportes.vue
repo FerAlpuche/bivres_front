@@ -248,7 +248,7 @@ export default {
     getSelectDivision () {
       this.clean = true;
       api
-        .doGet("/api/degree/"+ this.selectDivision)
+        .doGet(`/api/degree/${this.selectDivision}`)
         .then((response) => {
           this.careers = response.data
         })

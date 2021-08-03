@@ -317,7 +317,7 @@ export default {
 
     toggleEdit(id) {
       api
-        .doGet("/api/division/" + id)
+        .doGet(`/api/division/${id}`)
         .then((response) => {
           this.divisionEdit = response.data;
           this.divisionEdit = response.data[0].idAcademicDivision;
@@ -377,7 +377,7 @@ export default {
       }).then((result) => {
         if (result.isConfirmed) {
           api
-            .doPut("/api/division/delete/" + id)
+            .doPut(`/api/division/delete/${id}`)
             .then(() => {
               Swal.fire(
                 "¡Eliminado!",

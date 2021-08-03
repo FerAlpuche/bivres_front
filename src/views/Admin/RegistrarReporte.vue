@@ -324,7 +324,7 @@ export default {
     getSelectDivision() {
       const id = this.form.idAcademicDivision;
       api
-        .doGet("api/degree/"+id)
+        .doGet(`api/degree/${id}`)
         .then((response) => {
           this.degrees = response.data;
         })

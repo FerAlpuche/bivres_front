@@ -348,7 +348,7 @@ export default {
   methods: {
     toggleEdit(id) {
       api
-        .doGet("/api/users/" + id)
+        .doGet(`/api/users/${id}`)
         .then((response) => {
           this.librarianEdit = response.data;
           this.librarianEditId = response.data[0].idUser;
@@ -428,7 +428,7 @@ export default {
               password: this.passwordEdit,
             };
             api
-              .doPut("/api/users/" + this.librarianEdit.id, this.librarianEdit)
+              .doPut(`/api/users/${this.librarianEdit.id}`, this.librarianEdit)
               .then(() => {
                 Swal.fire(
                   "Modificado",
@@ -469,7 +469,7 @@ export default {
       }).then((result) => {
         if (result.isConfirmed) {
           api
-            .doPut("/api/users/delete/" + idUser)
+            .doPut(`/api/users/delete/${idUser}`)
             .then(() => {
               Swal.fire(
                 "Eliminado",

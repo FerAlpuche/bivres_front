@@ -329,7 +329,7 @@ Vue.use(VueRouter);
       getSelectDivision() {
         const id = this.report.idAcademicDivision
         api
-          .doGet("api/degree/"+id)
+          .doGet(`api/degree/${id}`)
           .then((response) => {
             this.degrees = response.data;
           })
@@ -342,13 +342,13 @@ Vue.use(VueRouter);
       const id = this.$route.params.idReport;
 
       api
-        .doGet("api/reports/"+id)
+        .doGet(`api/reports/${id}`)
         .then((response) => {
           this.report = response.data.length > 0 ? this.report = response.data[0] : this.report = {};
           this.report.keywords = JSON.parse(this.report.keywords).replaceAll('"', '');
 
           api
-            .doGet("api/degree/"+this.report.idAcademicDivision)
+            .doGet(`api/degree/${this.report.idAcademicDivision}`)
             .then((response) => {
               this.degrees = response.data;
             })

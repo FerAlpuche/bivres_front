@@ -78,7 +78,7 @@ export default {
       }).then((result) => {
         if (result.isConfirmed) {
           api
-            .doPut("/api/students/delete/" + student)
+            .doPut(`/api/students/delete/${student}`)
             .then(function ({ data }) {
               if (data.status) {
                 Swal.fire("Baja de estudiante", data.message, "success");

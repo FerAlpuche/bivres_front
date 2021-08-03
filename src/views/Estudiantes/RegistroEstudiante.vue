@@ -325,7 +325,7 @@ export default {
     },
     getSelectDivision () {
       api
-        .doGet("/api/degree/"+this.student.academicDivision)
+        .doGet(`/api/degree/${this.student.academicDivision}`)
         .then((response) => {
           this.degrees = response.data
         })
