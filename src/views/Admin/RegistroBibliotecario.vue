@@ -13,8 +13,8 @@
               <b-tr>
                 <b-th>#</b-th>
                 <b-th>Nombre</b-th>
-                <b-th>Apellidos</b-th>
-                <b-th>Correo</b-th>
+                <b-th>Apellido(s)</b-th>
+                <b-th>Correo electrónico</b-th>
                 <b-th>Actualizar</b-th>
                 <b-th>Eliminar</b-th>
               </b-tr>
@@ -155,28 +155,30 @@
                   </b-col>
                 </b-row>
               </b-form>
-              <div class="mx-auto">
-                <b-button
-                  pill
-                  variant="danger"
-                  class="mt-5 w-50"
-                  block
-                  @click="$bvModal.hide('bv-modal-example')"
-                  >Cancelar</b-button
-                >
-                <b-button
-                  pill
-                  class="mt-5 w-50"
-                  variant="success outline"
-                  @click="
-                    $bvModal.hide('bv-modal-example');
-                    registerLibrarian();
-                  "
-                >
-                  Registrar
-
+              <div class="mx-auto row">
+                <div class="col-6">
+                  <b-button
+                    pill
+                    variant="danger"
+                    class="mt-5 w-50"
+                    block
+                    @click="$bvModal.hide('bv-modal-example')"
+                    >Cancelar</b-button
+                  >
+                </div>
+                <div class="col-6">
+                  <b-button
+                    pill
+                    class="mt-5 w-50"
+                    variant="success outline"
+                    @click="
+                      $bvModal.hide('bv-modal-example');
+                      registerLibrarian();
+                    "
+                  >Registrar
                   <b-icon class="float-right" icon="person-plus"></b-icon>
-                </b-button>
+                  </b-button>
+                </div>
               </div>
             </b-col>
           </b-row>
@@ -253,7 +255,16 @@
                       ></b-form-input>
                     </b-form-group>
                   </b-col>
-                  <b-col cols="12">
+                  <b-col cols="12" v-if="!isNewPassword">
+                    <b-button size="md" variant="outline-warning" @click="editPassword">
+                      <b-icon
+                        variant="waring"
+                        icon="key"
+                        aria-hidden="true"
+                      ></b-icon> Cambiar contraseña
+                    </b-button>
+                  </b-col>
+                  <b-col cols="12" v-else>
                     <b-form-group
                       class="mt-3"
                       id="input-group-4"
@@ -274,28 +285,30 @@
                   </b-col>
                 </b-row>
               </b-form>
-              <div class="mx-auto">
-                <b-button
-                  pill
-                  variant="danger"
-                  class="mt-5 w-50"
-                  block
-                  @click="$bvModal.hide('bv-modal')"
-                  >Cancelar</b-button
-                >
-                <b-button
-                  pill
-                  class="mt-5 w-50"
-                  variant="success outline"
-                  @click="
-                    $bvModal.hide('bv-modal');
-                    editLibrarian();
-                  "
-                >
-                  Modificar
-
-                  <b-icon class="float-right" icon="pencil-square"></b-icon>
-                </b-button>
+              <div class="mx-auto row">
+                <div class="col-6">
+                  <b-button
+                    pill
+                    variant="danger"
+                    class="mt-5 w-50"
+                    block
+                    @click="$bvModal.hide('bv-modal')"
+                    >Cancelar</b-button
+                  >
+                </div>
+                <div class="col-6">
+                  <b-button
+                    pill
+                    class="mt-5 w-50"
+                    variant="success outline"
+                    @click="
+                      $bvModal.hide('bv-modal');
+                      editLibrarian();
+                    "
+                  > Modificar
+                    <b-icon class="float-right" icon="pencil-square"></b-icon>
+                  </b-button>
+                </div>
               </div>
             </b-col>
           </b-row>
@@ -337,6 +350,7 @@ export default {
         email: "",
         password: "",
       },
+      isNewPassword: false,
     };
   },
   components: {
@@ -365,7 +379,7 @@ export default {
       api
         .doGet("/api/users/librarian/active")
         .then((response) => {
-          this.users = response.data;
+          this.users = response.data.filter(i => i.email != JSON.parse(localStorage.getItem('user')).username);
         })
         .catch((error) => {
           console.log(error);
@@ -416,7 +430,6 @@ export default {
       }
     },
     editLibrarian() {
-
       if (this.librarianEditId != "" && this.firstNameEdit != "" 
         && this.lastNameEdit != "" && this.emailEdit != "") {
           if (this.isEmail(this.emailEdit)) {
@@ -425,14 +438,16 @@ export default {
               firstName: this.firstNameEdit,
               lastName: this.lastNameEdit,
               email: this.emailEdit,
-              password: this.passwordEdit,
             };
+            if (this.isNewPassword) {
+              this.librarianEdit.password = this.passwordEdit;
+            }
             api
               .doPut(`/api/users/${this.librarianEdit.id}`, this.librarianEdit)
               .then(() => {
                 Swal.fire(
                   "Modificado",
-                  "El reporte ha sido modificado satisfactoriamente",
+                  "El bibliotecario ha sido modificado satisfactoriamente",
                   "success"
                 );
                 this.getUsers();
@@ -456,6 +471,9 @@ export default {
             confirmButtonText: 'Aceptar'
           })
         }
+    },
+    editPassword(){
+      this.isNewPassword = !this.isNewPassword;
     },
     deleteLibrarian(idUser) {
       Swal.fire({
@@ -485,7 +503,6 @@ export default {
       });
     },
     isEmail(email){
-      // Regular expression for email search pattern
       var re = /^[^\s@]+@[^\s@]+$/;
       return re.test(email)
     }
@@ -497,11 +514,10 @@ body {
   height: 100vh;
 }
 .funciones {
-  color: #0d6efd;
   width: 100%;
   text-align: left;
   margin-left: 5%;
-  border-left: 3px solid #0d6efd;
+  border-left: 3px solid;
   height: 45px;
 }
 .funciones > h3 {

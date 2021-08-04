@@ -10,6 +10,7 @@
             aria-hidden="true"
           ></b-icon>
         </b-button>
+        <span class="text-white">Biblioteca Virtual de Reportes de Estadía - Estudiante</span>
       </b-navbar>
       <b-sidebar
         id="sidebar-no-header"
