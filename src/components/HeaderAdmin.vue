@@ -34,6 +34,7 @@
                 <b-nav-item href="/librarian/consultar-reportes" @click="hide">Consultar Reportes</b-nav-item>
                 <b-nav-item href="/librarian/consultar-solicitudes" @click="hide">Consultar Solicitudes</b-nav-item>
                 <b-nav-item href="/librarian/baja-estudiante" @click="hide">Dar de Baja Estudiantes</b-nav-item>
+                <b-nav-item href="/librarian/restablecer-contrasena" @click="hide">Restablecer contraseña</b-nav-item>
                 <b-nav-item href="/logout" @click="hide">Cerrar Sesión</b-nav-item>
               </b-nav>
             </nav>

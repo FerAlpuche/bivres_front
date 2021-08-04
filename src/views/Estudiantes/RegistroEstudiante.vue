@@ -1,6 +1,5 @@
 <template>
   <div>
-    <headerEstudiante />
     <b-container>
        <b-row align-v="center">
         <b-col align-v="center">
@@ -190,15 +189,19 @@
                         </b-col>
                     </b-row>
                   </b-form>
-                  <div class="mx-auto">
-                    <b-button pill class="mt-3 w-50" variant="danger" @click="backToLogin();">
-                      Cancelar
-                      <b-icon class="float-right" icon="x-circle"></b-icon>
-                    </b-button>
-                    <b-button pill class="mt-3 w-50" variant="primary" @click="registerStudent();">
-                      Registrar
-                      <b-icon class="float-right" icon="person-plus"></b-icon>
-                    </b-button>
+                  <div class="mx-auto row">
+                    <b-col cols="6">
+                      <b-button pill class="mt-3 w-50" variant="danger" @click="backToLogin();">
+                        Cancelar
+                        <b-icon class="float-right" icon="x-circle"></b-icon>
+                      </b-button>
+                    </b-col>
+                    <b-col cols="6">
+                      <b-button pill class="mt-3 w-50" variant="primary" @click="registerStudent();">
+                        Registrar
+                        <b-icon class="float-right" icon="person-plus"></b-icon>
+                      </b-button>
+                    </b-col>
                   </div>
                 </b-card-body>
               </b-col>
@@ -213,7 +216,6 @@
 <script>
 import Vue from "vue";
 import VueRouter from "vue-router";
-import headerEstudiante from "../../components/HeaderEstudiante";
 import api from "../../util/api";
 import Swal from 'sweetalert2'
 
@@ -239,10 +241,7 @@ export default {
       },
     };
   },
-  components: {
-    headerEstudiante,
-  },
-    beforeMount() {
+  beforeMount() {
     this.getDivisions();
     this.getLevel();
   },
@@ -363,7 +362,7 @@ export default {
       // Regular expression for email search pattern
       var re = /^[^\s@]+@[^\s@]+$/;
       return re.test(email)
-    }
+    },
   }
 };
 </script>
@@ -373,8 +372,8 @@ body {
   height: 100vh;
 }
 
-.custom-file-label::after {
-  content: "Buscar"
+::v-deep .custom-file-label::after {
+  content: "Buscar" !important
 }
 </style>
 

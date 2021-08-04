@@ -141,7 +141,6 @@ export default {
               }
             })
             .catch(function (error) {
-              console.log(error.response.data)
               route.flag = true;
               if (error.response.data.isValid) {
                 route.errorMessage = error.response.data.message;

@@ -158,42 +158,6 @@ export default {
           console.log(error);
         });
     },
-    /*deleteReport(report){
-            Swal.fire({
-                title: '¿Desea eliminar el reporte?',
-                text: "No podrá revirtir los cambios",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Sí, eliminar',
-                cancelButtonText: 'Cancelar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    api
-                    .doPut("api/reports/delete/"+report)
-                    .then((response) => {
-                        if (response.data) {
-                            Swal.fire('Eliminiado', 'El reporte ha sido eliminado satisfactoriamente', 'success')
-                            api
-                            .doGet("api/reports/")
-                            .then((response) => {
-                                console.log(response.data)
-                                this.reports = response.data
-                            })
-                            .catch((error) => {
-                                console.log(error);
-                            });
-                        }   
-                    })
-                    .catch((error) => {
-                        if (error) {
-                            Swal.fire('Error', 'Lo sentimos, hubo un error al eliminar el reporte', 'error')
-                        }
-                    });
-                }
-            })
-        }*/
     updateReport(report) {
       this.$router.push({ path: "/librarian/modificar-reporte/" + report });
     },

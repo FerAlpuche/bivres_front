@@ -5,6 +5,7 @@ import VueRouter from 'vue-router'
 import RegistrarReporte from '../views/Admin/RegistrarReporte.vue'
 import ModificarReporte from '../views/Admin/ModificarReporte.vue'
 import BajaEstudiante from '../views/Admin/BajaEstudiante.vue'
+import RestablecerContrasena from '../views/Admin/RestablecerContrasena.vue'
 import RegistroBibliotecario from '../views/Admin/RegistroBibliotecario.vue'
 import DivisionAcademica from '../views/Admin/DivisionAcademica.vue'
 import ConsultarReportesLibrarian from '../views/Admin/ConsultarReportes.vue'
@@ -81,6 +82,20 @@ const routes = [
     path: '/librarian/baja-estudiante',
     name: 'BajaEstudiante',
     component: BajaEstudiante,
+    beforeEnter: (to, from, next) => {
+      if (localStorage.getItem("isAuthenticated") != 1) {
+        next("/error/401")
+      }else if (localStorage.getItem("isAuthenticated") == 1 && localStorage.getItem("role") == "librarian") {
+        next()
+      }else if(localStorage.getItem("isAuthenticated") == 1 && localStorage.getItem("role") != "librarian"){
+        next("/error/403")
+      }
+    }
+  },
+  {
+    path: '/librarian/restablecer-contrasena',
+    name: 'RestablecerContrasena',
+    component: RestablecerContrasena,
     beforeEnter: (to, from, next) => {
       if (localStorage.getItem("isAuthenticated") != 1) {
         next("/error/401")

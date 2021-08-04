@@ -440,5 +440,8 @@ export default {
 body {
   height: 100vh;
 }
+::v-deep .custom-file-label::after {
+  content: "Buscar" !important
+}
 </style>
 
