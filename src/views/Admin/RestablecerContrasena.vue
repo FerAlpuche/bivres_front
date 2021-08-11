@@ -17,6 +17,7 @@
               <b-th>División académica</b-th>
               <b-th>Nivel</b-th>
               <b-th>Restablecer contraseña</b-th>
+              <b-th>Asignar contraseña</b-th>
             </b-tr>
           </b-thead>
           <b-tbody>
@@ -39,10 +40,90 @@
                   ></b-icon>
                 </b-button>
               </b-td>
+              <b-td>
+                <b-button 
+                size="lg" 
+                variant="link" 
+                class="mb-2"
+                id="show-btn"
+                v-b-modal.bv-modal-example>
+                  <b-icon
+                  @click="
+                      $bvModal.show('bv-modal-example');
+                      toggleEdit(student.idStudentData);
+                    "
+                    icon="keyboard-fill"
+                    variant="primary"
+                  ></b-icon>
+                </b-button>
+              </b-td>
             </b-tr>
           </b-tbody>
         </b-table-simple>
       </div>
+
+      <!-- MODAL REGISTRO -->
+      <b-modal
+        title="Asignar contraseña"
+        hide-header-close
+        size="lg"
+        centered
+        id="bv-modal-example"
+        hide-footer
+      >
+        <div class="d-block text-center">
+          <b-row>
+            <b-col md="12">
+              <b-form align="left">
+                <b-row>
+                  <b-col cols="12">
+                    <b-form-group
+                      id="input-group-1"
+                      label="Ingresar contraseña"
+                      label-for="input-1"
+                    >
+                      <b-form-input
+                        autocomplete="off"
+                        size="sm"
+                        class="mt-3"
+                        id="input-1"
+                        type="password"
+                        placeholder=""
+                        required
+                        v-model="passwordEdit"
+                      ></b-form-input>
+                    </b-form-group>
+                  </b-col>
+                </b-row>
+              </b-form>
+              <div class="mx-auto row">
+                <div class="col-6">
+                  <b-button
+                    pill
+                    variant="danger"
+                    class="mt-5 w-50"
+                    block
+                    @click="$bvModal.hide('bv-modal-example')"
+                    >Cancelar</b-button
+                  >
+                </div>
+                <div class="col-6">
+                  <b-button
+                    pill
+                    class="mt-5 w-50"
+                    variant="success outline"
+                    @click="
+                      $bvModal.hide('bv-modal-example');
+                      asignPassword(passwordEdit);
+                    "
+                  >Asignar
+                  </b-button>
+                </div>
+              </div>
+            </b-col>
+          </b-row>
+        </div>
+      </b-modal>
     </b-container>
   </div>
 </template>
@@ -63,12 +144,13 @@ export default {
   },
   data() {
     return {
+      passwordEdit: "",
       students: [],
+      idStudent: 0,
     };
   },
   methods: {
     passwordReset(student) {
-    //   const dataStudents = this;
       Swal.fire({
         title: "Restablecer contraseña",
         text:"Se enviará un correo electrónico al estudiante con una nueva contraseña",
@@ -94,6 +176,40 @@ export default {
             });
         }
       });
+    },
+    asignPassword(passwordEdit) {
+      Swal.fire({
+        title: "Asignar contraseña",
+        text:"Se asignará al alumno la contraseña ingresada ¿Desea continuar?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Continuar",
+        cancelButtonText: "Cancelar",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          api
+            .doPost(`/api/users/asign-password/${this.idStudent}`,{
+              newPassword: passwordEdit,
+            })
+            .then(function ({ data }) {
+              if (data.status) {
+                Swal.fire("Contraseña asignada", "Contraseña asignada con éxito", "success",);
+              }
+            })
+            .catch(function (error) {
+              if (error.response.data.message) {
+                Swal.fire("Error", error.response.data.message, "error");
+              }
+            });
+        }else{
+          this.passwordEdit = "";
+        }
+      });
+    },
+    toggleEdit(idStudentData) {
+      this.idStudent = idStudentData;
     },
   },
   mounted() {

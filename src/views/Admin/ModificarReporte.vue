@@ -307,7 +307,7 @@ Vue.use(VueRouter);
         let myHeaders = new Headers();
         myHeaders.append("x-access-token", localStorage.getItem("token"));
 
-        fetch('http://localhost:3000/api/reports/'+report, {
+        fetch(`http://localhost:3000/api/reports/${report}`, {
           method: 'PUT',
           headers: myHeaders,
           body: fieldsForm

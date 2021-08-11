@@ -3,7 +3,7 @@
     <headerAdmin />
     <br />
     <div class="funciones">
-      <h3>Registro de bibliotecarios</h3>
+      <h3>Bibliotecarios</h3>
     </div>
     <b-container>
       <b-row>
@@ -429,7 +429,7 @@ export default {
         })
       }
     },
-    editLibrarian() {
+    async editLibrarian() {
       if (this.librarianEditId != "" && this.firstNameEdit != "" 
         && this.lastNameEdit != "" && this.emailEdit != "") {
           if (this.isEmail(this.emailEdit)) {
@@ -444,12 +444,21 @@ export default {
             }
             api
               .doPut(`/api/users/${this.librarianEdit.id}`, this.librarianEdit)
-              .then(() => {
-                Swal.fire(
-                  "Modificado",
-                  "El bibliotecario ha sido modificado satisfactoriamente",
-                  "success"
-                );
+              .then(({data}) => {
+                if (data.exist) {
+                  Swal.fire({
+                    title: 'Correo ya en uso, \n Favor de ingresar un correo electrónico válido',
+                    icon: 'warning',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Aceptar'
+                  })
+                } else {
+                  Swal.fire(
+                    "Modificado",
+                    "El bibliotecario ha sido modificado satisfactoriamente",
+                    "success"
+                  );
+                }
                 this.getUsers();
               })
               .catch((error) => {
