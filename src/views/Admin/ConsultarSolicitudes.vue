@@ -19,6 +19,11 @@
               <b-th>Rechazar</b-th>
             </b-tr>
           </b-thead>
+          <b-tr v-if="students.length == 0">
+            <b-td></b-td>
+            <b-td></b-td>
+            <b-td>No hay solicitudes pendientes</b-td>
+          </b-tr>
           <b-tbody>
             <b-tr
               v-for="student in students"
