@@ -42,7 +42,7 @@
           </b-col>
           <b-col cols="3">
             <h5 align="left">Año de publicación</h5>
-            <b-form-datepicker minimum-view="year" v-model="selectYear"></b-form-datepicker>
+            <b-form-datepicker placeholder="Año de publicación" minimum-view="year" v-model="selectYear"></b-form-datepicker>
           </b-col>
         </b-row>
         <b-row class="mt-3">
