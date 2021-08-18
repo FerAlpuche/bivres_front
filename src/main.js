@@ -7,8 +7,10 @@ import "bootstrap-vue/dist/bootstrap-vue.css"
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import VueRouter from "vue-router"
+import AxiosPlugin from 'vue-axios-cors';
+ 
 
-
+Vue.use(AxiosPlugin);
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 Vue.use(VueAxios, axios);
